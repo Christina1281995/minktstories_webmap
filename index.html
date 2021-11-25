@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>MINKT Lungau Project</title>
+		<meta name="author" content="Christina Zorenböhmer, Katharina Wöhs, Niklas Jaggy" />
+		<meta name="description" Content="MINKT Lungau Project" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="minkt_style.css" type="text/css">
+       	<link rel="stylesheet" href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">
+        <script src="https://openlayers.org/en/v5.3.0/build/ol.js" type="text/javascript"></script>
+		<script src= "ol-layerswitcher.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="ol-layerswitcher_custom.css">
+		<script src="minkt.js"></script>
+    </head>
+
+    <body onload="init ();">
+        <div id="header"><h1>MINKT Stories Lungau</h1></div>
+        <div id="map">
+			<div id="trackerbox">
+				<div class="checker">
+					<label for="track">
+						Position finden 
+						<input id="track" type="checkbox"/>
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="ol-popupMarker">
+			<span class="popup-marker" id="marker"></span>
+		</div>
+		<div class="ol-popup">
+			<span class='popup-text' id='feature-name'></span> 
+			<span class='popup-text' id='feature-content'></span> 
+			<span class='popup-text' id='feature-category'></span> 
+			<span class='popup-image' id='feature-image'></span> 
+		</div>
+		<div class="wrapper">
+			<a class="prev" onclick="init.changeIndex(-1);"> &#10094 </a>
+			<div class="media" id= "media1">
+				<div class="layer">
+					<p id='image1-text' text-align= 'center'></p>
+			  	</div>
+				<span class='gallery' id='gallery-image1'></span> 
+			</div>
+			<div class="media" id= "media2">
+				<div class="layer">
+					<p id='image2-text' text-align= 'center'></p>
+			  	</div>
+				<span class='gallery' id='gallery-image2'></span> 
+			</div>
+			<div class="media">
+				<div class="layer" id= "media3">
+					<p id='image3-text' text-align= 'center'></p>
+			  	</div>
+				<span class='gallery' id='gallery-image3'></span> 
+			</div>
+			<div class="media" id= "media4">
+				<div class="layer">
+					<p id='image4-text' text-align= 'center'></p>
+			  	</div>
+				<span class='gallery' id='gallery-image4'></span> 
+			</div>
+			<!-- Next and previous buttons -->
+		<a class="next" onclick= "init.changeIndex(1);" > &#10095 </a>
+		</div>
+        <div id="footer"></div>
+    </body>
+</html>
