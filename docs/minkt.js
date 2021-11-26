@@ -5,7 +5,7 @@ function init () {
     */
 
     var styles = ['Road', 'Aerial','AerialWithLabels'];
-    var bingKey = 'ApTJzdkyN1DdFKkRAE6QIDtzihNaf6IWJsT-nQ_2eMoO4PN__0Tzhl2-WgJtXFSp';
+    var bingKey = 'Atoz1wDioRmjCFJbh0EYKVbNhY1FpWn2hyBGodCxBwsbWmxEP9Il16k9qcBBLXWk';
 
     // Bing Layers
     var bingLayers = [];
@@ -34,13 +34,14 @@ function init () {
         source: new ol.source.OSM()
     })
 
-    //combining base layers in array for layer switcher
+    // Combining base layers in array for layer switcher
     bingLayers.push(osm);
 
     /*
     WFS INTEGRATION
     */
 
+    // Icon Styling
     var plantStyle = new ol.style.Style({
         image: new ol.style.Icon({
             anchor: [0.5, 0.8],
@@ -87,6 +88,7 @@ function init () {
         })
     });
 
+    // WFS get features request
     var request = 'https://dservices.arcgis.com/Sf0q24s0oDKgX14j/arcgis/services/MinktStories/WFSServer?service=wfs&' +
     'version=2.0.0&request=getfeature&typeNames=MinktStories:survey&srsname=EPSG:3857&' +
     'outputFormat=GEOJSON';
@@ -97,9 +99,10 @@ function init () {
         xmlHttp.send(null);
         return xmlHttp.responseText;
     }
-    var requestJSON = JSON.parse(httpGet(request));
 
-    console.log(requestJSON);
+    // Parse as JSON
+    var requestJSON = JSON.parse(httpGet(request));
+    // console.log(requestJSON);
     
     var allFeatures = new ol.source.Vector();
     var mobility = new ol.source.Vector();
@@ -107,7 +110,7 @@ function init () {
     var lebensort = new ol.source.Vector();
     var sonstige = new ol.source.Vector();
 
-    //create layer with all features but individual styling
+    // Create a layer with all features but individual styling
     for (var y in requestJSON.features) {
         var feature = requestJSON.features[y];
         var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
@@ -127,9 +130,9 @@ function init () {
         }
         allFeatures.addFeature(point);
         point.setProperties(feature.properties);
-    }//for loop
+    }
 
-    //distibute features in layers based on feature "Zuordnung"
+    // Distibute features in layers based on property "Zuordnung"
     for (var x in requestJSON.features) {
         var feature = requestJSON.features[x];
         var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
@@ -146,7 +149,6 @@ function init () {
             }
             mobility.addFeature(point);
             point.setProperties(feature.properties);
-            
         } else if (feature.properties.Zuordnung == "Lebensort") {
             var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
             var point = new ol.Feature({
@@ -172,12 +174,12 @@ function init () {
             point.setStyle(oStyle);
             sonstige.addFeature(point);
             point.setProperties(feature.properties);
-        
-        }//else if         
-    }//for loop
+        }        
+    }
 
+    // Create Vector layers and set maximum resolution (relevant for feature clustering)
     var allLayer = new ol.layer.Vector({
-        title: "Alle Kategorien",
+        title: "Alle MINKT Stories",
         source: allFeatures,
         maxResolution: 30
     });
@@ -205,35 +207,7 @@ function init () {
         source: sonstige,
         maxResolution: 30
     });
-    
-    /*
-    Create Layer Groups
-    */
 
-    baseLayers = new ol.layer.Group({
-        title: "Base Layers",
-        fold:'open',
-        layers: bingLayers
-    });
-
-    overlays = new ol.layer.Group({
-        title: 'MINKT Stories',
-        fold: "open",
-        layers: [otherLayer, lebensortLayer, mobilityLayer, plantsLayer, allLayer]
-    });
-
-
-    /*
-    LAYER SWITCHER
-    */
-    var layerSwitcher = new ol.control.LayerSwitcher({
-        activationMode: "click",
-        tipLabel: 'Layers', // Optional label for button
-        groupSelectStyle: 'children' // Can be 'children' [default], 'group' or 'none'
-    });
-
-    //create an object lungauPosition 
-    var lungauPosition = ol.proj.transform ([13.80937, 47.12704], 'EPSG:4326', 'EPSG:3857');
 
     /*
     FEATURE CLUSTERING 
@@ -244,7 +218,7 @@ function init () {
     });
     var styleCache = {};
 
-    // Clustering Layer
+    // Create clustering vector Layer with styling
     var clusterLayer = new ol.layer.Vector({
     source: clusterSource,
     minResolution: 31,
@@ -280,7 +254,7 @@ function init () {
     GEOLOCATION
     */
 
-    //use geolocation to add marker to computers location
+    // Use geolocation to add marker at the device's location
     //add current geolocation of user 
     var geolocation = new ol.Geolocation({						
         trackingOptions: {
@@ -290,17 +264,17 @@ function init () {
 
     var markerSource = new ol.source.Vector();
 
-    geolocation.on('change', function(){
-        						
+    // Once location is found ("change") draw marker, set geolocation to false, zoom to location
+    geolocation.on('change', function(){			
         var currentPosition = ol.proj.transform(geolocation.getPosition(), 'EPSG:4326', 'EPSG:3857');			
         console.log(currentPosition);
         drawMarkerCurrentPosition(currentPosition);
         geolocation.setTracking(false);
         map.getView().setCenter(currentPosition);
-        //map.getView().setZoom(15); //if closer zoom is wanted/needed
+        map.getView().setZoom(15); //if closer zoom is wanted/needed
     });
 
-    //create a marker for the current geolocation position  
+    // Create a marker for the current geolocation position  
     function drawMarkerCurrentPosition(currentPosition) {
         var marker = new ol.Feature({
             geometry: new ol.geom.Point(currentPosition)
@@ -314,34 +288,70 @@ function init () {
         });
         marker.setStyle(vectorStyle);
         markerSource.addFeature(marker);
-    }//drawMarkerCurrentPosition
+    }
 
+    // Create vector layer
     var markerLayer = new ol.layer.Vector({
-        title: "Markers",
+        title: "Meine Position",
+        visible: true,
         source: markerSource
     });
-    
+
+     /*
+    Create Layer Groups
+    */
+
+    // To be used in the LayerSwitcher panel
+    baseLayers = new ol.layer.Group({
+        title: "Base Layers",
+        fold:'close',
+        layers: bingLayers
+    });
+
+    overlays = new ol.layer.Group({
+        title: 'MINKT Stories',
+        fold: "open",
+        layers: [otherLayer, lebensortLayer, mobilityLayer, plantsLayer]
+    });
+
+    positioning = new ol.layer.Group({
+        title: 'GPS Position',
+        fold: "close",
+        layers: [markerLayer]
+    });
+
+
+    /*
+    LAYER SWITCHER
+    */
+    var layerSwitcher = new ol.control.LayerSwitcher({
+        activationMode: "click",
+        tipLabel: 'Layers',
+        groupSelectStyle: 'group' 
+    });
 
     /*
     CREATE BASIC MAP
     */
+
+   // Create a variable lungauPosition 
+   var lungauPosition = ol.proj.transform ([13.80937, 47.12704], 'EPSG:4326', 'EPSG:3857');
 
     var map = new ol.Map({
         layers: [
             baseLayers,
             overlays,
             clusterLayer,
-            markerLayer
+            positioning
         ],
         controls: ol.control.defaults({
             attributionOptions: ({
-                collapsible: false
+                collapsible: true
             })
         }).extend([
             layerSwitcher,
             new ol.control.ScaleLine()
         ]),
-        // set map centre to lungauPosition
         target: 'map',
         view: new ol.View({
             center: lungauPosition,
@@ -349,7 +359,7 @@ function init () {
         })
     });
 
-        
+    // Geolocation button in map       
     function el(id) {
         return document.getElementById(id)
     }
@@ -361,29 +371,18 @@ function init () {
 
 
     /*
-    ICON STYLE CHANGE ON HOVER
+    Home Button
     */
-
-    let selected = null;
-
-    map.on('click', function (e) {
-        if (selected !== null) {
-          selected.setStyle(undefined);
-          selected = null;
-        }
-        map.forEachFeatureAtPixel(e.pixel, function (f) {
-            //selected = f
-            console.log(feature.properties.Zuordnung);
-
-            if (feature.properties.Zuordnung === "Heilpflanze") {
-                //feature.setStyle(plantStyle_hover);        
-            }
-        });
-    })
+    
+    const zoomHome = document.getElementById('home');
+    zoomHome.addEventListener('click', function() {
+        map.getView().setCenter(lungauPosition);
+        map.getView().setZoom(13);
+    }, false);  
 
 
     /*
-     POP-UPS
+     POP-UPS 
     */
 
     // Pop-Up for Geolocation
@@ -401,9 +400,12 @@ function init () {
     overlayMarker.innerHTML = "<p><b>DU BIST HIER</b><br>Erkunde die Karte indem du rein- und rauszoomst, auf die Elemente klickst und die Gallerie erkundest.</p>";
 
     geolocation.on('change', function(e){
-        //overlayLayerMarker.setPosition(undefined);
+        overlayLayerMarker.setPosition(undefined);
         var currentPosition = ol.proj.transform(geolocation.getPosition(), 'EPSG:4326', 'EPSG:3857');
         overlayLayerMarker.setPosition(currentPosition);
+        map.on('click', function(e) {
+            overlayLayerMarker.setPosition(undefined);
+        })
     });
 
     // Pop-Ups for Features
@@ -421,6 +423,7 @@ function init () {
     const overlayFeatureCategory = document.getElementById('feature-category');
     const overlayFeatureImage = document.getElementById('feature-image');
 
+    // On click function to read feature-at-pixel properties and fill pop-up container elements
     map.on('click', function (e) {
         overlayLayer.setPosition(undefined);
         map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
@@ -438,7 +441,7 @@ function init () {
                 // Create image URL dynamically with the ObjectID 
                 overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
                 clickedFeatureID + "/attachments/" + clickedFeatureID + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
-                " height='200px' >";
+                " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";
             }
         }) 
     });
@@ -480,16 +483,16 @@ function init () {
     // Fill Gallery with initial images uning URL frame and imageIndex
     galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex] + "/attachments/" + featuresID[imageIndex] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
-    " >";
+    " width='300' >";
     galleryimage2.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
-    " >";
+    " width='300' >";
     galleryimage3.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 2] + "/attachments/" + featuresID[imageIndex + 2] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
-    " >";
+    " width='300' >";
     galleryimage4.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 3] + "/attachments/" + featuresID[imageIndex + 3] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
-    " >";
+    " width='300' >";
 
     // Fill Gallery with text corresponding to images 
     gallerytext1.innerHTML = "<p>" + featuresText[imageIndex] + "</p>";
@@ -512,16 +515,16 @@ function init () {
             // Fill Gallery with Images
             galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
             featuresID[imageIndex] + "/attachments/" + featuresID[imageIndex] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
-            " >";
+            " width='300'>";
             galleryimage2.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
             featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
-            " >";
+            " width='300' >";
             galleryimage3.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
             featuresID[imageIndex + 2] + "/attachments/" + featuresID[imageIndex + 2] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
-            " >";
+            " width='300' >";
             galleryimage4.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
             featuresID[imageIndex + 3] + "/attachments/" + featuresID[imageIndex + 3] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
-            " >";
+            " width='300' >";
 
             // Fill Gallery with Text
             gallerytext1.innerHTML = "<p>" + featuresText[imageIndex] + "</p>";
@@ -541,7 +544,16 @@ function init () {
         function () {
          var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex].geometry.coordinates[0], requestJSON.features[imageIndex].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
          map.getView().setCenter(zoomPosition);
-         map.getView().setZoom(15);
+         map.getView().setZoom(16);
+          // Pop-Up
+          overlayLayer.setPosition(zoomPosition);
+          overlayFeatureName.innerHTML = "<h3>" + requestJSON.features[imageIndex].properties.Name_deiner_Story + "</h3>";
+          overlayFeatureContent.innerHTML = "<p>" + requestJSON.features[imageIndex].properties.Beschreibung + "</p>";
+          overlayFeatureCategory.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex].properties.Zuordnung + "</i></p>";
+          // Create image URL dynamically with the ObjectID 
+          overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+          (imageIndex + 1) + "/attachments/" + (imageIndex + 1) + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
+          " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";
         })
     const media2 = document.getElementById('media2');
     media2.addEventListener(
@@ -549,7 +561,16 @@ function init () {
         function () {
          var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex + 1].geometry.coordinates[0], requestJSON.features[imageIndex + 1].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
          map.getView().setCenter(zoomPosition);
-         map.getView().setZoom(15);
+         map.getView().setZoom(16);
+         // Pop-Up
+         overlayLayer.setPosition(zoomPosition);
+         overlayFeatureName.innerHTML = "<h3>" + requestJSON.features[imageIndex + 1].properties.Name_deiner_Story + "</h3>";
+         overlayFeatureContent.innerHTML = "<p>" + requestJSON.features[imageIndex + 1].properties.Beschreibung + "</p>";
+         overlayFeatureCategory.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex + 1].properties.Zuordnung + "</i></p>";
+         // Create image URL dynamically with the ObjectID 
+         overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+         (imageIndex + 2) + "/attachments/" + (imageIndex + 2) + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
+         " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
     const media3 = document.getElementById('media3');
     media3.addEventListener(
@@ -557,7 +578,16 @@ function init () {
         function () {
          var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex + 2].geometry.coordinates[0], requestJSON.features[imageIndex + 2].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
          map.getView().setCenter(zoomPosition);
-         map.getView().setZoom(15);
+         map.getView().setZoom(16);
+         // Pop-Up
+         overlayLayer.setPosition(zoomPosition);
+        overlayFeatureName.innerHTML = "<h3>" + requestJSON.features[imageIndex + 2].properties.Name_deiner_Story + "</h3>";
+        overlayFeatureContent.innerHTML = "<p>" + requestJSON.features[imageIndex + 2].properties.Beschreibung + "</p>";
+        overlayFeatureCategory.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex + 2].properties.Zuordnung + "</i></p>";
+        // Create image URL dynamically with the ObjectID 
+        overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+        (imageIndex + 3) + "/attachments/" + (imageIndex + 3) + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
+        " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
     const media4 = document.getElementById('media4');
     media4.addEventListener(
@@ -565,6 +595,16 @@ function init () {
         function () {
             var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex + 3].geometry.coordinates[0], requestJSON.features[imageIndex + 3].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');            
             map.getView().setCenter(zoomPosition);
-            map.getView().setZoom(15);
+            map.getView().setZoom(16);
+            // Pop-Up
+            overlayLayer.setPosition(zoomPosition);
+            overlayFeatureName.innerHTML = "<h3>" + requestJSON.features[imageIndex + 3].properties.Name_deiner_Story + "</h3>";
+            overlayFeatureContent.innerHTML = "<p>" + requestJSON.features[imageIndex + 3].properties.Beschreibung + "</p>";
+            overlayFeatureCategory.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex + 3].properties.Zuordnung + "</i></p>";
+            // Create image URL dynamically with the ObjectID 
+            overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+            (imageIndex + 4) + "/attachments/" + (imageIndex + 4) + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
+            " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
 }
+
