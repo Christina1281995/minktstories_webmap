@@ -448,7 +448,7 @@ function init () {
         }
         map.forEachFeatureAtPixel(e.pixel, function (f) {
             selected = f;
-            f.setStyle(plantStyle1);
+            f.setStyle();
             return true;
           });
           
@@ -479,9 +479,11 @@ function init () {
                     beforeStyle = oStyle;
                 }
                 return beforeStyle;
-        }});
+            } 
+        });
         //return true;
     });
+
 
 
     /*
@@ -521,8 +523,8 @@ function init () {
         element: overlayContainerElement,
         autoPan: true,
         autoPanAnimation: {
-            duration: 250,
-          },
+            duration: 500,
+          }, 
     })
     map.addOverlay(overlayLayer);
     const overlayFeatureName = document.getElementById('feature-name');
@@ -552,6 +554,44 @@ function init () {
             }
         }) 
     });
+
+    // Pop Up for Gallery PopUps (No AutoPan! Otherwise map.zoom and setView gets messed up)
+       // link container to element in html
+       const overlayContainerElement1 = document.querySelector('.ol-popup');
+
+       // create overlay itself
+       const overlayLayer1 = new ol.Overlay({
+           element: overlayContainerElement1 
+       })
+       map.addOverlay(overlayLayer1);
+       const overlayFeatureName1 = document.getElementById('feature-name');
+       const overlayFeatureContent1 = document.getElementById('feature-content');
+       const overlayFeatureCategory1 = document.getElementById('feature-category');
+       const overlayFeatureImage1 = document.getElementById('feature-image');
+
+       // On click function to read feature-at-pixel properties and fill pop-up container elements
+       map.on('click', function (e) {
+           overlayLayer1.setPosition(undefined); 
+           map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
+               if (layer === allLayer || layer === plantsLayer || layer === otherLayer || layer === lebensortLayer || layer === mobilityLayer) {
+                   let clickedCoordinate = e.coordinate;
+                   let clickedFeatureName = feature.get('Name_deiner_Story');
+                   let clickedFeatureContent = feature.get('Beschreibung');
+                   let clickedFeatureCategory = feature.get('Zuordnung');
+                   let clickedFeatureID = feature.get('ObjectID');
+                   overlayLayer1.setPosition(clickedCoordinate);
+                   console.log(clickedFeatureName, clickedFeatureContent, clickedFeatureCategory);
+                   overlayFeatureName1.innerHTML = "<h3>" + clickedFeatureName + "</h3>";
+                   overlayFeatureContent1.innerHTML = "<p>" + clickedFeatureContent + "</p>";
+                   overlayFeatureCategory1.innerHTML = "<p><i>Kategorie: "+ clickedFeatureCategory + "</i></p>";
+                   // Create image URL dynamically with the ObjectID 
+                   overlayFeatureImage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+                   clickedFeatureID + "/attachments/" + clickedFeatureID + token +
+                   " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";
+               }
+           })
+       });
+
 
     /*
     IMAGE GALLERY
@@ -646,72 +686,67 @@ function init () {
 
     // Add Event listener on media blocks for zoom and center function in map
     const media1 = document.getElementById('media1');
-    media1.addEventListener(
-        'click',
-        function () {
+
+    media1.addEventListener('click', function () {
          var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex].geometry.coordinates[0], requestJSON.features[imageIndex].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
          map.getView().setCenter(zoomPosition);
          map.getView().setZoom(16);
           // Pop-Up
-          overlayLayer.setPosition(zoomPosition);
-          overlayFeatureName.innerHTML = "<h3>" + requestJSON.features[imageIndex].properties.Name_deiner_Story + "</h3>";
-          overlayFeatureContent.innerHTML = "<p>" + requestJSON.features[imageIndex].properties.Beschreibung + "</p>";
-          overlayFeatureCategory.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex].properties.Zuordnung + "</i></p>";
+          overlayLayer1.setPosition(zoomPosition);
+          overlayFeatureName1.innerHTML = "<h3>" + requestJSON.features[imageIndex].properties.Name_deiner_Story + "</h3>";
+          overlayFeatureContent1.innerHTML = "<p>" + requestJSON.features[imageIndex].properties.Beschreibung + "</p>";
+          overlayFeatureCategory1.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex].properties.Zuordnung + "</i></p>";
           // Create image URL dynamically with the ObjectID 
           overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
           (imageIndex + 1) + "/attachments/" + (imageIndex + 1) + token +
           " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";
         })
+
     const media2 = document.getElementById('media2');
-    media2.addEventListener(
-        'click',
-        function () {
+    media2.addEventListener('click', function () {
          var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex + 1].geometry.coordinates[0], requestJSON.features[imageIndex + 1].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
          map.getView().setCenter(zoomPosition);
          map.getView().setZoom(16);
          // Pop-Up
-         overlayLayer.setPosition(zoomPosition);
-         overlayFeatureName.innerHTML = "<h3>" + requestJSON.features[imageIndex + 1].properties.Name_deiner_Story + "</h3>";
-         overlayFeatureContent.innerHTML = "<p>" + requestJSON.features[imageIndex + 1].properties.Beschreibung + "</p>";
-         overlayFeatureCategory.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex + 1].properties.Zuordnung + "</i></p>";
+         overlayLayer1.setPosition(zoomPosition);
+         overlayFeatureName1.innerHTML = "<h3>" + requestJSON.features[imageIndex + 1].properties.Name_deiner_Story + "</h3>";
+         overlayFeatureContent1.innerHTML = "<p>" + requestJSON.features[imageIndex + 1].properties.Beschreibung + "</p>";
+         overlayFeatureCategory1.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex + 1].properties.Zuordnung + "</i></p>";
          // Create image URL dynamically with the ObjectID 
-         overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+         overlayFeatureImage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
          (imageIndex + 2) + "/attachments/" + (imageIndex + 2) + token +
          " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
+
     const media3 = document.getElementById('media3');
-    media3.addEventListener(
-        'click',
-        function () {
+    media3.addEventListener('click', function () {
          var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex + 2].geometry.coordinates[0], requestJSON.features[imageIndex + 2].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
          map.getView().setCenter(zoomPosition);
          map.getView().setZoom(16);
          // Pop-Up
-         overlayLayer.setPosition(zoomPosition);
-        overlayFeatureName.innerHTML = "<h3>" + requestJSON.features[imageIndex + 2].properties.Name_deiner_Story + "</h3>";
-        overlayFeatureContent.innerHTML = "<p>" + requestJSON.features[imageIndex + 2].properties.Beschreibung + "</p>";
-        overlayFeatureCategory.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex + 2].properties.Zuordnung + "</i></p>";
+         overlayLayer1.setPosition(zoomPosition);
+        overlayFeatureName1.innerHTML = "<h3>" + requestJSON.features[imageIndex + 2].properties.Name_deiner_Story + "</h3>";
+        overlayFeatureContent1.innerHTML = "<p>" + requestJSON.features[imageIndex + 2].properties.Beschreibung + "</p>";
+        overlayFeatureCategory1.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex + 2].properties.Zuordnung + "</i></p>";
         // Create image URL dynamically with the ObjectID 
-        overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+        overlayFeatureImage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
         (imageIndex + 3) + "/attachments/" + (imageIndex + 3) + token +
         " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
+
     const media4 = document.getElementById('media4');
-    media4.addEventListener(
-        'click',
-        function () {
-            var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex + 3].geometry.coordinates[0], requestJSON.features[imageIndex + 3].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');            
-            map.getView().setCenter(zoomPosition);
-            map.getView().setZoom(16);
-            // Pop-Up
-            overlayLayer.setPosition(zoomPosition);
-            overlayFeatureName.innerHTML = "<h3>" + requestJSON.features[imageIndex + 3].properties.Name_deiner_Story + "</h3>";
-            overlayFeatureContent.innerHTML = "<p>" + requestJSON.features[imageIndex + 3].properties.Beschreibung + "</p>";
-            overlayFeatureCategory.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex + 3].properties.Zuordnung + "</i></p>";
-            // Create image URL dynamically with the ObjectID 
-            overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-            (imageIndex + 4) + "/attachments/" + (imageIndex + 4) + token +
-            " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
+    media4.addEventListener('click', function () {
+        var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex + 3].geometry.coordinates[0], requestJSON.features[imageIndex + 3].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');            
+        map.getView().setCenter(zoomPosition);
+        map.getView().setZoom(16);
+        // Pop-Up
+        overlayLayer1.setPosition(zoomPosition);
+        overlayFeatureName1.innerHTML = "<h3>" + requestJSON.features[imageIndex + 3].properties.Name_deiner_Story + "</h3>";
+        overlayFeatureContent1.innerHTML = "<p>" + requestJSON.features[imageIndex + 3].properties.Beschreibung + "</p>";
+        overlayFeatureCategory1.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex + 3].properties.Zuordnung + "</i></p>";
+        // Create image URL dynamically with the ObjectID 
+        overlayFeatureImage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+        (imageIndex + 4) + "/attachments/" + (imageIndex + 4) + token +
+        " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
 }
-
