@@ -386,6 +386,105 @@ function init () {
 
 
     /*
+    ON-HOVER HIGHLIGHT
+    */
+
+    // Styles - same as for normal features but a larger scale
+    var plantStyle1 = new ol.style.Style({
+        image: new ol.style.Icon({
+            anchor: [0.5, 0.8],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            scale: 1.2,
+            src: 'plant.png'
+        })
+    });
+    var nMobStyle1 = new ol.style.Style({
+        image: new ol.style.Icon({
+            anchor: [0.5, 0.8],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            scale: 1.2,
+            src: 'nMob.png'
+        })
+    });
+    var pMobStyle1 = new ol.style.Style({
+        image: new ol.style.Icon({
+            anchor: [0.5, 0.8],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            scale: 1.2,
+            src: 'pMob.png'
+        })
+    });
+    var oStyle1 = new ol.style.Style({
+        image: new ol.style.Icon({
+            anchor: [0.5, 0.8],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            scale: 1.2,
+            src: 'sonstige.png'
+        })
+    });
+    var liveStyle1 = new ol.style.Style({
+        image: new ol.style.Icon({
+            anchor: [0.5, 0.8],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            scale: 1.2,
+            src: 'lebensort.png'
+        })
+    });
+
+    let selected = null;
+    const status = document.getElementById('status');
+    var beforeStyle;
+    
+    map.on('pointermove', function (e) {
+        if (selected !== null) {
+            // Use a variable (beforeStyle) to pass the original style back and forth!
+            selected.setStyle(beforeStyle);
+            selected = null;
+        }
+        map.forEachFeatureAtPixel(e.pixel, function (f) {
+            selected = f;
+            f.setStyle(plantStyle1);
+            return true;
+          });
+          
+        // set new style according to each feature's Zuordnung and return beforeStyle so that it returns to whatever it was before!
+        map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
+            if (layer === allLayer || layer === plantsLayer || layer === otherLayer || layer === lebensortLayer || layer === mobilityLayer) {
+                let hoverFeature = feature.get('Zuordnung')
+                console.log(hoverFeature);
+                
+                if (hoverFeature == "Heilpflanze") {
+                    selected.setStyle(plantStyle1)
+                    beforeStyle = plantStyle;
+                }
+                if (hoverFeature == "Lebensort") {
+                    selected.setStyle(liveStyle1)
+                    beforeStyle = liveStyle;
+                }
+                if (hoverFeature == "Positiver_Mobilitätsmoment") {
+                    selected.setStyle(pMobStyle1)
+                    beforeStyle = pMobStyle;
+                }
+                if (hoverFeature == "Negativer_Mobilitätsmoment") {
+                    selected.setStyle(nMobStyle1)
+                    beforeStyle = nMobStyle;
+                }            
+                if (hoverFeature == "other") {
+                    selected.setStyle(oStyle1)
+                    beforeStyle = oStyle;
+                }
+                return beforeStyle;
+        }});
+        //return true;
+    });
+
+
+    /*
      POP-UPS 
     */
 
