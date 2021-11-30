@@ -440,7 +440,7 @@ function init () {
                 overlayFeatureCategory.innerHTML = "<p><i>Kategorie: "+ clickedFeatureCategory + "</i></p>";
                 // Create image URL dynamically with the ObjectID 
                 overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-                clickedFeatureID + "/attachments/" + clickedFeatureID + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
+                clickedFeatureID + "/attachments/" + clickedFeatureID + "?token=G4BQFTxq13VZ8VOAfkwJTOL5OdJagHoFS1x1--y0hnoEUr8DLw7rDz3q-0OUd9DM3MmW6gmBUg0R_hnFACGGkaOIxP1tB35S8xlCwscv0CjZNFMhwsiuafYGynM8UroMEkXKau9RCTju1G7f1vi3gyV263FOTltqJDiVkQMmKy_N4shZTdIYiMc5LMfpsBe1PXJHyWV9D3KMzSUBKMRfuqJiisEl2DvJ5UxsV2MsXFC0TOgJY-kjKhni1_j5Rp8W' " +
                 " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";
             }
         }) 
@@ -482,16 +482,16 @@ function init () {
 
     // Fill Gallery with initial images uning URL frame and imageIndex
     galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-    featuresID[imageIndex] + "/attachments/" + featuresID[imageIndex] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
+    featuresID[imageIndex] + "/attachments/" + featuresID[imageIndex] + "?token=G4BQFTxq13VZ8VOAfkwJTOL5OdJagHoFS1x1--y0hnoEUr8DLw7rDz3q-0OUd9DM3MmW6gmBUg0R_hnFACGGkaOIxP1tB35S8xlCwscv0CjZNFMhwsiuafYGynM8UroMEkXKau9RCTju1G7f1vi3gyV263FOTltqJDiVkQMmKy_N4shZTdIYiMc5LMfpsBe1PXJHyWV9D3KMzSUBKMRfuqJiisEl2DvJ5UxsV2MsXFC0TOgJY-kjKhni1_j5Rp8W' " +
     " width='300' >";
     galleryimage2.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-    featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
+    featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] + "?token=G4BQFTxq13VZ8VOAfkwJTOL5OdJagHoFS1x1--y0hnoEUr8DLw7rDz3q-0OUd9DM3MmW6gmBUg0R_hnFACGGkaOIxP1tB35S8xlCwscv0CjZNFMhwsiuafYGynM8UroMEkXKau9RCTju1G7f1vi3gyV263FOTltqJDiVkQMmKy_N4shZTdIYiMc5LMfpsBe1PXJHyWV9D3KMzSUBKMRfuqJiisEl2DvJ5UxsV2MsXFC0TOgJY-kjKhni1_j5Rp8W' " +
     " width='300' >";
     galleryimage3.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-    featuresID[imageIndex + 2] + "/attachments/" + featuresID[imageIndex + 2] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
+    featuresID[imageIndex + 2] + "/attachments/" + featuresID[imageIndex + 2] + "?token=G4BQFTxq13VZ8VOAfkwJTOL5OdJagHoFS1x1--y0hnoEUr8DLw7rDz3q-0OUd9DM3MmW6gmBUg0R_hnFACGGkaOIxP1tB35S8xlCwscv0CjZNFMhwsiuafYGynM8UroMEkXKau9RCTju1G7f1vi3gyV263FOTltqJDiVkQMmKy_N4shZTdIYiMc5LMfpsBe1PXJHyWV9D3KMzSUBKMRfuqJiisEl2DvJ5UxsV2MsXFC0TOgJY-kjKhni1_j5Rp8W' " +
     " width='300' >";
     galleryimage4.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-    featuresID[imageIndex + 3] + "/attachments/" + featuresID[imageIndex + 3] + "?token=ehnLSS8QylmvaSoPcx3fdX_KMUxJjeYJZk3tHGZ1Qf_mbxnA2QqAsUjdkbQaOFLK2TpnNm0sTJ4GkZYhn96GHzu6emPYUn81cBtaSK3RHcsN9aA-AdRNv02LFZvCr2KcDx2yK4qLrf5SDvTjRvLjT9brc8AJl6mBYl20NLB5-StLb7Nfuw93J8xmjzPb8VWPMspFiQGMUg0qE1V05048aXpLrxQGLSz4YSQD1TzjsMA_-rhzOBVEGbGPpjmNOpim' " +
+    featuresID[imageIndex + 3] + "/attachments/" + featuresID[imageIndex + 3] + "?token=G4BQFTxq13VZ8VOAfkwJTOL5OdJagHoFS1x1--y0hnoEUr8DLw7rDz3q-0OUd9DM3MmW6gmBUg0R_hnFACGGkaOIxP1tB35S8xlCwscv0CjZNFMhwsiuafYGynM8UroMEkXKau9RCTju1G7f1vi3gyV263FOTltqJDiVkQMmKy_N4shZTdIYiMc5LMfpsBe1PXJHyWV9D3KMzSUBKMRfuqJiisEl2DvJ5UxsV2MsXFC0TOgJY-kjKhni1_j5Rp8W' " +
     " width='300' >";
 
     // Fill Gallery with text corresponding to images 
