@@ -2,6 +2,9 @@
 
 The MINKT Stories web map is an open layers web application that integrates data collected in Survey123 as a WFS. The application includes pop-ups, geolocation, an interactive gallery, and layer switchers ([walkermatt-layerswitcher](https://github.com/walkermatt/ol-layerswitcher)).
 
+**Recent Updates:** <br/>
+_30.11.2021_ - The survey123 tokens (used for image URL generation) were changed by ESRI. It is unclear whether this automatically happens every 2 weeks or if the token change was triggered through activity in ArcGIS Online (at the time when the tokens were changed, a user was editing the MINKT platform, not the web map, and an error message was issued regarding the tokens). to fix the issue, the tokens were updated in the code. <br/>
+
 **See the Web Map Result:** <br/>
 [https://christina1281995.github.io/minktstories_webmap/](https://christina1281995.github.io/minktstories_webmap/)
 
@@ -17,9 +20,6 @@ The MINKT Stories web map is an open layers web application that integrates data
 
 <br/>
 <br/>
-
-**Recent Updates:** <br/>
-30.11.2021 - The survey123 tokens (used for image URL generation) were changed by ESRI. Unclear whether this automatically happens every 2 weeks or if the token change was triggered through activity in ArcGIS Online (at the time when the tokens were changed, a user was editing the MINKT platform and a security warning was issued regarding the tokens). For the time being, the tokens were updated in the code. <br/>
 
 **Contributors:** <br/>
 Niklas Jaggy, Katharina Wöhs, Christina Zorenböhmer
