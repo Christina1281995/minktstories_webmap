@@ -2,9 +2,6 @@
 
 The MINKT Stories web map is an open layers web application that integrates data collected in Survey123 as a WFS. The application includes pop-ups, geolocation, an interactive gallery, and layer switchers ([walkermatt-layerswitcher](https://github.com/walkermatt/ol-layerswitcher)).
 
-**Contributors:** <br/>
-Niklas Jaggy, Katharina Wöhs, Christina Zorenböhmer
-
 **See the Web Map Result:** <br/>
 [https://christina1281995.github.io/minktstories_webmap/](https://christina1281995.github.io/minktstories_webmap/)
 
@@ -14,14 +11,18 @@ Niklas Jaggy, Katharina Wöhs, Christina Zorenböhmer
 **View the MINKT Stories Platform:** <br/>
 [https://minkt-stories-lungau.zgis.at/](https://minkt-stories-lungau.zgis.at/)
 
-**Recent Updates:** <br/>
-30.11.2021 - The survey123 tokens (used for image URL generation) were changed by ESRI. Unclear whether this automatically happens every 2 weeks or if the token change was triggered through activity in ArcGIS Online (at the time when the tokens were changed, a user was editing the MINKT platform and a security warning was issued regarding the tokens). For the time being, the tokens were updated in the code. <br/>
+<br/>
 
 ![image](https://user-images.githubusercontent.com/81073205/143590945-9ffa7b3e-0f4c-4597-8e14-29defc484a87.png)
 
 <br/>
 <br/>
-<br/>
+
+**Recent Updates:** <br/>
+30.11.2021 - The survey123 tokens (used for image URL generation) were changed by ESRI. Unclear whether this automatically happens every 2 weeks or if the token change was triggered through activity in ArcGIS Online (at the time when the tokens were changed, a user was editing the MINKT platform and a security warning was issued regarding the tokens). For the time being, the tokens were updated in the code. <br/>
+
+**Contributors:** <br/>
+Niklas Jaggy, Katharina Wöhs, Christina Zorenböhmer
 
 **Create a New MINKT Story yourself:** <br/>
 Go to [Survey123](https://survey123.arcgis.com/share/b6e023860648421f832ce0e93ad14aec) and simply upload a new story. <br/>
