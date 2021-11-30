@@ -14,5 +14,15 @@ Niklas Jaggy, Katharina Wöhs, Christina Zorenböhmer
 **View the MINKT Stories Platform:** <br/>
 [https://minkt-stories-lungau.zgis.at/](https://minkt-stories-lungau.zgis.at/)
 
+**Recent Updates:** <br/>
+30.11.2021 - The survey123 tokens (used for image URL generation) were changed by ESRI. Unclear whether this automatically happens every 2 weeks or if the token change was triggered through activity in ArcGIS Online (at the time when the tokens were changed, a user was editing the MINKT platform and a security warning was issued regarding the tokens). For the time being, the tokens were updated in the code. <br/>
+
 ![image](https://user-images.githubusercontent.com/81073205/143590945-9ffa7b3e-0f4c-4597-8e14-29defc484a87.png)
 
+<br/>
+<br/>
+<br/>
+
+**Create a New MINKT Story yourself:** <br/>
+Go to [Survey123](https://survey123.arcgis.com/share/b6e023860648421f832ce0e93ad14aec) and simply upload a new story. <br/>
+<img align="center" src="https://user-images.githubusercontent.com/81073205/144023964-5ae8c0b1-2d0c-480d-9278-e644319403a5.png" width="200" height="200">
