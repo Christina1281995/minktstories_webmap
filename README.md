@@ -31,10 +31,10 @@ Niklas Jaggy, Katharina Wöhs, Christina Zorenböhmer
 
 **Current Bug Log:** <br/>
 
-| _Issue_  | Details |
-| ------------- | ------------- |
-| _autoPan_  | When clicking on a feature, the autoPan sometimes only works on the second click. There is an issue of duplicate code for the feature pop-ups (one version needed for the gallery that does not include autoPan, and one for the features in the map, which does include autoPan. |
-|  _Feature Clustering_  | Feature clustering layer currently does not take into account which feature categories are turned on and off in the layer switcher.  |
+| _Issue_  | Date | Details |
+| ------------- | ------------- | ------------- |
+| _autoPan_  | 01.12.2021 | When clicking on a feature, the autoPan sometimes only works on the second click. There is an issue of duplicate code for the feature pop-ups (one version needed for the gallery that does not include autoPan, and one for the features in the map, which does include autoPan. |
+|  _Feature Clustering_  | 01.12.2021 | Feature clustering layer currently does not take into account which feature categories are turned on and off in the layer switcher.  |
 
 <br/>
 
