@@ -211,11 +211,10 @@ function init () {
         maxResolution: 30
     });
 
-
     /*
     FEATURE CLUSTERING 
     */ 
-
+    
     var clusterSource = new ol.source.Cluster({
         source: allFeatures
     });
@@ -384,7 +383,25 @@ function init () {
         map.getView().setZoom(13);
     }, false);  
 
+    /*
+    Legend Button
+    */
 
+    const legend = document.getElementById("legend-button");
+    // const legend_content = document.getElementById("legend");
+    var counter = 0;
+    legend.addEventListener('click', function() {
+        counter++;
+        console.log(counter);
+        if (counter % 2 != 0) {
+            document.querySelector('#legend').setAttribute("style", "display: flexbox;");
+            console.log("Set to flexbox");
+        } else  {
+            document.querySelector('#legend').setAttribute("style", "display: none");
+            console.log("Set to none");
+        }
+    });
+    
     /*
     ON-HOVER HIGHLIGHT
     */
@@ -440,16 +457,19 @@ function init () {
     const status = document.getElementById('status');
     var beforeStyle;
     
-    map.on('pointermove', function (e) {
-        if (selected !== null) {
+    map.on('pointermove', function (e, layer) {
+        if (selected !== null ) {
             // Use a variable (beforeStyle) to pass the original style back and forth!
             selected.setStyle(beforeStyle);
             selected = null;
         }
-        map.forEachFeatureAtPixel(e.pixel, function (f) {
+        map.forEachFeatureAtPixel(e.pixel, function (f, layer) {
+            // If condition to exclude the clusterLayer and GPS positioning layer from the Style change, otherwise the "beforeStyle" is applied to the clusterLayer when zoomed out again
+            if (layer !== clusterLayer && layer !== markerLayer){
             selected = f;
             f.setStyle();
             return true;
+            }
           });
           
         // set new style according to each feature's Zuordnung and return beforeStyle so that it returns to whatever it was before!
@@ -483,7 +503,6 @@ function init () {
         });
         //return true;
     });
-
 
 
     /*
@@ -569,28 +588,28 @@ function init () {
        const overlayFeatureCategory1 = document.getElementById('feature-category');
        const overlayFeatureImage1 = document.getElementById('feature-image');
 
-       // On click function to read feature-at-pixel properties and fill pop-up container elements
-       map.on('click', function (e) {
-           overlayLayer1.setPosition(undefined); 
-           map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
-               if (layer === allLayer || layer === plantsLayer || layer === otherLayer || layer === lebensortLayer || layer === mobilityLayer) {
-                   let clickedCoordinate = e.coordinate;
-                   let clickedFeatureName = feature.get('Name_deiner_Story');
-                   let clickedFeatureContent = feature.get('Beschreibung');
-                   let clickedFeatureCategory = feature.get('Zuordnung');
-                   let clickedFeatureID = feature.get('ObjectID');
-                   overlayLayer1.setPosition(clickedCoordinate);
-                   console.log(clickedFeatureName, clickedFeatureContent, clickedFeatureCategory);
-                   overlayFeatureName1.innerHTML = "<h3>" + clickedFeatureName + "</h3>";
-                   overlayFeatureContent1.innerHTML = "<p>" + clickedFeatureContent + "</p>";
-                   overlayFeatureCategory1.innerHTML = "<p><i>Kategorie: "+ clickedFeatureCategory + "</i></p>";
+        // On click function to read feature-at-pixel properties and fill pop-up container elements
+        map.on('click', function (e) {
+             overlayLayer1.setPosition(undefined); 
+             map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
+                if (layer === allLayer || layer === plantsLayer || layer === otherLayer || layer === lebensortLayer || layer === mobilityLayer) {
+                    let clickedCoordinate = e.coordinate;
+                    let clickedFeatureName = feature.get('Name_deiner_Story');
+                    let clickedFeatureContent = feature.get('Beschreibung');
+                    let clickedFeatureCategory = feature.get('Zuordnung');
+                    let clickedFeatureID = feature.get('ObjectID');
+                    overlayLayer1.setPosition(clickedCoordinate);
+                    console.log(clickedFeatureName, clickedFeatureContent, clickedFeatureCategory);
+                    overlayFeatureName1.innerHTML = "<h3>" + clickedFeatureName + "</h3>";
+                    overlayFeatureContent1.innerHTML = "<p>" + clickedFeatureContent + "</p>";
+                    overlayFeatureCategory1.innerHTML = "<p><i>Kategorie: "+ clickedFeatureCategory + "</i></p>";
                    // Create image URL dynamically with the ObjectID 
-                   overlayFeatureImage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-                   clickedFeatureID + "/attachments/" + clickedFeatureID + token +
-                   " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";
-               }
+                    overlayFeatureImage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+                    clickedFeatureID + "/attachments/" + clickedFeatureID + token +
+                    " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";
+                }
            })
-       });
+        });
 
 
     /*
@@ -693,6 +712,7 @@ function init () {
          map.getView().setZoom(16);
           // Pop-Up
           overlayLayer1.setPosition(zoomPosition);
+          console.log(zoomPosition);
           overlayFeatureName1.innerHTML = "<h3>" + requestJSON.features[imageIndex].properties.Name_deiner_Story + "</h3>";
           overlayFeatureContent1.innerHTML = "<p>" + requestJSON.features[imageIndex].properties.Beschreibung + "</p>";
           overlayFeatureCategory1.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex].properties.Zuordnung + "</i></p>";
@@ -750,3 +770,4 @@ function init () {
         " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
 }
+
