@@ -15,6 +15,7 @@ The MINKT Stories web map is an open layers web application that integrates data
 
 | _Date_  | Issue / Edit |
 | ------------- | ------------- |
+| _01.12.2021_  | Legend added. Some stylistic improvements. |
 | _30.11.2021_  | The survey123 **tokens** (used for image URL generation) were changed by ESRI. It is unclear whether this automatically happens every 2 weeks or if the token change was triggered through activity in ArcGIS Online (at the time when the tokens were changed, a user was editing the MINKT platform, not the web map, and an error message was issued regarding the tokens). to fix the issue, the tokens were updated in the code.  |
 |  _30.11.2021_  | Added to the map: autoPan function for the pop-ups, on-hover highlighting of the individual features, and an on-hover opening and closing of the layer switcher menu were added.  |
 
