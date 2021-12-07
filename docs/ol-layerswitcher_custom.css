@@ -27,7 +27,7 @@ Code based on Walkermatt ol layerswitcher: https://github.com/walkermatt/ol-laye
   z-index: 1;
   width: 38px;
   height: 38px;
-  background-image: url("layer.png");
+  background-image: url("static/layer.png");
     /*logo.png*/;
   background-repeat: no-repeat;
   background-position: 2px;
