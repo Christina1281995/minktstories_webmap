@@ -29,6 +29,8 @@
 				</div>
 			</div>
 			<button id="home"></button>
+
+			<!-- legend -->
 			<button id="legend-button"></button>
 			<div id="legend" style="display: none">
 				<h3>Legende</h3>
@@ -37,7 +39,7 @@
 						<p> Lebensort</p>
 					</div>
 					<div class="column2">
-						<img src="lebensort.png" height="50px" text-align="right">
+						<img src="static/lebensort_legend.png" height="50px" text-align="right">
 					</div>
 				</div>
 				<div class ="row">
@@ -45,7 +47,7 @@
 						<p> Heilpflanze</p>
 					</div>
 					<div class="column2">
-						<img src="plant.png" height="50px">
+						<img src="static/plant_legend.png" height="50px">
 					</div>
 				</div>
 				<div class ="row">
@@ -53,7 +55,7 @@
 						<p> Positiver<br/>Mobilitätsmoment</p>
 					</div>
 					<div class="column2">
-						<img src="pMob.png" height="50px">
+						<img src="static/pmob_legend.png" height="50px">
 					</div>
 				</div>
 				<div class ="row">
@@ -61,19 +63,44 @@
 						<p> Negativer<br/>Mobilitätsmoment</p>
 					</div>
 					<div class="column2">
-						<img src="nMob.png" height="50px">
+						<img src="static/nmob_legend.png" height="50px">
 					</div>
 				</div>
 				<div class ="row">
 					<div class="column1">
 						<p> Sonstige Objekte<br/>aus Natur und Kultur</p>
 					</div>
-				<div class="column2">
-					<img src="sonstige.png" height="50px">
-				</div>
+					<div class="column2">
+						<img src="static/other_legend.png" height="50px">
+					</div>
 				</div>
 			</div>
+
+			<!-- print map option-->
+			<!--
+			<button id="print"></button>
+			<div id="print-section" style="display: none">
+				<form class="form">
+					<label for="format">Page size </label>
+					<select id="format">
+					<option value="a0">A0 (slow)</option>
+					<option value="a1">A1</option>
+					<option value="a2">A2</option>
+					<option value="a3">A3</option>
+					<option value="a4" selected>A4</option>
+					<option value="a5">A5 (fast)</option>
+					</select>
+					<label for="resolution">Resolution </label>
+					<select id="resolution">
+					<option value="72">72 dpi (fast)</option>
+					<option value="150">150 dpi</option>
+					<option value="300">300 dpi (slow)</option>
+					</select>
+				</form>
+				<button id="export-pdf">Export PDF</button>
+			</div> -->
 		</div>
+		<!-- pop-ups in the map-->
 		<div class="ol-popupMarker">
 			<span class="popup-marker" id="marker"></span>
 		</div>
