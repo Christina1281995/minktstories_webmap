@@ -51,7 +51,7 @@ function init () {
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
             scale: 0.85,
-            src: 'plant.png'
+            src: 'static/plant.png'
         })
     });
     var nMobStyle = new ol.style.Style({
@@ -60,7 +60,7 @@ function init () {
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
             scale: 0.85,
-            src: 'nMob.png'
+            src: 'static/nMob.png'
         })
     });
     var pMobStyle = new ol.style.Style({
@@ -69,7 +69,7 @@ function init () {
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
             scale: 0.85,
-            src: 'pMob.png'
+            src: 'static/pMob.png'
         })
     });
     var oStyle = new ol.style.Style({
@@ -78,7 +78,7 @@ function init () {
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
             scale: 0.85,
-            src: 'sonstige.png'
+            src: 'static/sonstige.png'
         })
     });
     var liveStyle = new ol.style.Style({
@@ -87,7 +87,7 @@ function init () {
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
             scale: 0.85,
-            src: 'lebensort.png'
+            src: 'static/lebensort.png'
         })
     });
 
@@ -140,6 +140,7 @@ function init () {
         var feature = requestJSON.features[x];
         var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
         //console.log(feature.geometry.coordinates);
+        /* single mobility layer */
         if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment" || feature.properties.Zuordnung == "Negativer_Mobilitätsmoment") {
             var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
             var point = new ol.Feature({
@@ -152,7 +153,33 @@ function init () {
             }
             mobility.addFeature(point);
             point.setProperties(feature.properties);
-        } else if (feature.properties.Zuordnung == "Lebensort") {
+        }
+        if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment" || feature.properties.Zuordnung == "Negativer_Mobilitätsmoment") {
+            var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+            var point = new ol.Feature({
+            geometry: new ol.geom.Point(position)
+            });
+            if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment") {
+                point.setStyle(pMobStyle)
+            } else {
+                point.setStyle(nMobStyle)
+            }
+            mobility.addFeature(point);
+            point.setProperties(feature.properties);
+        }else if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment" || feature.properties.Zuordnung == "Negativer_Mobilitätsmoment") {
+            var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+            var point = new ol.Feature({
+            geometry: new ol.geom.Point(position)
+            });
+            if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment") {
+                point.setStyle(pMobStyle)
+            } else {
+                point.setStyle(nMobStyle)
+            }
+            mobility.addFeature(point);
+            point.setProperties(feature.properties);
+        }
+         else if (feature.properties.Zuordnung == "Lebensort") {
             var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
             var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
@@ -184,31 +211,31 @@ function init () {
     var allLayer = new ol.layer.Vector({
         title: "Alle MINKT Stories",
         source: allFeatures,
-        maxResolution: 30
+        maxResolution: 40
     });
 
     var mobilityLayer = new ol.layer.Vector({
         title: "Mobilität",
         source: mobility,
-        maxResolution: 30
+        maxResolution: 40
     });
 
     var lebensortLayer = new ol.layer.Vector({
         title: "Lebensorte",
         source: lebensort,
-        maxResolution: 30
+        maxResolution: 40
     });
 
     var plantsLayer = new ol.layer.Vector({
         title: "Heilpflanzen",
         source: plants,
-        maxResolution: 30
+        maxResolution: 40
     });
 
     var otherLayer = new ol.layer.Vector({
         title: "Sonstige",
         source: sonstige,
-        maxResolution: 30
+        maxResolution: 40
     });
 
     /*
@@ -223,7 +250,7 @@ function init () {
     // Create clustering vector Layer with styling
     var clusterLayer = new ol.layer.Vector({
     source: clusterSource,
-    minResolution: 31,
+    minResolution: 41,
     style: function(feature) {
         var size = feature.get('features').length;
         var style = styleCache[size];
@@ -285,7 +312,7 @@ function init () {
         var vectorStyle = new ol.style.Style({
             image: new ol.style.Icon(({
                 scale: 0.5,
-                src: 'current_position.png'
+                src: 'static/current_position.png'
             }))
         });
         marker.setStyle(vectorStyle);
@@ -401,6 +428,25 @@ function init () {
             console.log("Set to none");
         }
     });
+
+    /*
+    Print Button
+   
+    const print = document.getElementById("print");
+    // const legend_content = document.getElementById("legend");
+    var counter = 0;
+    print.addEventListener('click', function() {
+        counter++;
+        console.log(counter);
+        if (counter % 2 != 0) {
+            document.querySelector('#print-section').setAttribute("style", "display: flexbox;");
+            console.log("Set to flexbox");
+        } else  {
+            document.querySelector('#print-section').setAttribute("style", "display: none");
+            console.log("Set to none");
+        }
+    });
+     */
     
     /*
     ON-HOVER HIGHLIGHT
@@ -413,7 +459,7 @@ function init () {
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
             scale: 1.2,
-            src: 'plant.png'
+            src: 'static/plant.png'
         })
     });
     var nMobStyle1 = new ol.style.Style({
@@ -422,7 +468,7 @@ function init () {
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
             scale: 1.2,
-            src: 'nMob.png'
+            src: 'static/nMob.png'
         })
     });
     var pMobStyle1 = new ol.style.Style({
@@ -431,7 +477,7 @@ function init () {
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
             scale: 1.2,
-            src: 'pMob.png'
+            src: 'static/pMob.png'
         })
     });
     var oStyle1 = new ol.style.Style({
@@ -440,7 +486,7 @@ function init () {
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
             scale: 1.2,
-            src: 'sonstige.png'
+            src: 'static/sonstige.png'
         })
     });
     var liveStyle1 = new ol.style.Style({
@@ -449,7 +495,7 @@ function init () {
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
             scale: 1.2,
-            src: 'lebensort.png'
+            src: 'static/lebensort.png'
         })
     });
 
@@ -769,5 +815,85 @@ function init () {
         (imageIndex + 4) + "/attachments/" + (imageIndex + 4) + token +
         " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
-}
 
+
+/* Print PDF Option */
+
+
+    const dims = {
+        a0: [1189, 841],
+        a1: [841, 594],
+        a2: [594, 420],
+        a3: [420, 297],
+        a4: [297, 210],
+        a5: [210, 148],
+    };
+  
+  const exportButton = document.getElementById('export-pdf');
+  
+  exportButton.addEventListener(
+    'click',
+    function () {
+      exportButton.disabled = true;
+      document.body.style.cursor = 'progress';
+  
+      const format = document.getElementById('format').value;
+      const resolution = document.getElementById('resolution').value;
+      const dim = dims[format];
+      const width = Math.round((dim[0] * resolution) / 25.4);
+      const height = Math.round((dim[1] * resolution) / 25.4);
+      const size = map.getSize();
+      const viewResolution = map.getView().getResolution();
+  
+      map.once('rendercomplete', function () {
+        const mapCanvas = document.createElement('canvas');
+        mapCanvas.width = width;
+        mapCanvas.height = height;
+        const mapContext = mapCanvas.getContext('2d');
+        Array.prototype.forEach.call(
+          document.querySelectorAll('.ol-layer canvas'),
+          function (canvas) {
+            if (canvas.width > 0) {
+              const opacity = canvas.parentNode.style.opacity;
+              mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+              const transform = canvas.style.transform;
+              // Get the transform parameters from the style's transform matrix
+              const matrix = transform
+                .match(/^matrix\(([^\(]*)\)$/)[1]
+                .split(',')
+                .map(Number);
+              // Apply the transform to the export map context
+              CanvasRenderingContext2D.prototype.setTransform.apply(
+                mapContext,
+                matrix
+              );
+              mapContext.drawImage(canvas, 0, 0);
+            }
+          }
+        );
+        const pdf = new jspdf.jsPDF('landscape', undefined, format);
+        pdf.addImage(
+          mapCanvas.toDataURL('image/jpeg'),
+          'JPEG',
+          0,
+          0,
+          dim[0],
+          dim[1]
+        );
+        pdf.save('map.pdf');
+        // Reset original map size
+        map.setSize(size);
+        map.getView().setResolution(viewResolution);
+        exportButton.disabled = false;
+        document.body.style.cursor = 'auto';
+      });
+  
+      // Set print size
+      const printSize = [width, height];
+      map.setSize(printSize);
+      const scaling = Math.min(width / size[0], height / size[1]);
+      map.getView().setResolution(viewResolution / scaling);
+    },
+    false
+    );
+};
