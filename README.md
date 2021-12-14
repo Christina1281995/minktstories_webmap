@@ -15,6 +15,7 @@ The MINKT Stories web map is an open layers web application that integrates data
 
 | _Date_  | Issue / Edit |
 | ------------- | ------------- |
+| _14.12.2021_  | Survey123 **token** updated again. While working on another project in ArcGIS Online the user was logged out. This triggered a safety issue and an caused an automatic update for the tokens. It is the same issue as experienced before (30.11.2021). |
 | _07.12.2021_  | Legned updated with improved icons and css styling. |
 | _01.12.2021_  | Legend added. Some stylistic improvements. |
 | _30.11.2021_  | The survey123 **tokens** (used for image URL generation) were changed by ESRI. It is unclear whether this automatically happens every 2 weeks or if the token change was triggered through activity in ArcGIS Online (at the time when the tokens were changed, a user was editing the MINKT platform, not the web map, and an error message was issued regarding the tokens). to fix the issue, the tokens were updated in the code.  |
