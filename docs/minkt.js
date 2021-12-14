@@ -1,7 +1,8 @@
 function init () {
    
     // ESRI Token for image URLs
-    var token = "?token=G4BQFTxq13VZ8VOAfkwJTOL5OdJagHoFS1x1--y0hnoEUr8DLw7rDz3q-0OUd9DM3MmW6gmBUg0R_hnFACGGkaOIxP1tB35S8xlCwscv0CjZNFMhwsiuafYGynM8UroMEkXKau9RCTju1G7f1vi3gyV263FOTltqJDiVkQMmKy_N4shZTdIYiMc5LMfpsBe1PXJHyWV9D3KMzSUBKMRfuqJiisEl2DvJ5UxsV2MsXFC0TOgJY-kjKhni1_j5Rp8W' ";
+    var token = "?token=I7TegBVc1f6x0trhZM9vqvr7h7yBhgoEyQDVQe2G4HO9g1FvBilhOcrqqxqaUMD8I7vGldeDUUmVCxySP5rCQLarp4bJWaSYS8a1fReBt7VJ8rWnLUQ7sg8s4U5W8bqI1twaQtnzJdphkP00RyJFjpHlEHpXn7sLyQsVDhd9TnDpDDfc9u7o6YowaRsiVieLrltzhD5Qvg2HKb1VO_I_Qhwm3bzZcF8I6BE7isShmzLpYuuM5ORXDpd7qfAtyRR7' ";
+    // var token = "?token=G4BQFTxq13VZ8VOAfkwJTOL5OdJagHoFS1x1--y0hnoEUr8DLw7rDz3q-0OUd9DM3MmW6gmBUg0R_hnFACGGkaOIxP1tB35S8xlCwscv0CjZNFMhwsiuafYGynM8UroMEkXKau9RCTju1G7f1vi3gyV263FOTltqJDiVkQMmKy_N4shZTdIYiMc5LMfpsBe1PXJHyWV9D3KMzSUBKMRfuqJiisEl2DvJ5UxsV2MsXFC0TOgJY-kjKhni1_j5Rp8W' ";
 
     /*
     BASE LAYERS
