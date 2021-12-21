@@ -4,13 +4,13 @@
 		<title>MINKT Lungau Project</title>
 		<meta name="author" content="Christina Zorenböhmer, Katharina Wöhs, Niklas Jaggy" />
 		<meta name="description" Content="MINKT Lungau Project" />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />		
-       		
-		<!-- own stylesheet -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		
+		<!-- own stylesheet --> 
 		<link rel="stylesheet" href="minkt_style.css" type="text/css">
-        	
-		<!-- google fonts,  open layers and ol-layerswitcher -->
-        	<link rel="preconnect" href="https://fonts.googleapis.com">
+		
+		<!-- Google Fonts, OpenLayers, and ol-layerswitcher --> 
+		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">
@@ -21,85 +21,85 @@
 		<!-- own js file -->
 		<script src="minkt.js"></script>
    	</head>
+	
+	<!-- onload init() is the main js function that contains all map elements -->
+	<body onload="init ();">
+		<div id="header"><h1>MINKT Stories Lungau</h1></div>
+		<div id="map">
+			<span id="status"></span>
+			<div id="trackerbox">
+				<div class="checker">
+					<label for="track">
+						Meine Position finden 
+						<input id="track" type="checkbox"/>
+					</label>
+				</div>
+			</div>
+			<button id="home"></button>
 
-    <!-- onload init() is the main function in minkt.js which loads the map -->
-    <body onload="init ();">
-        <div id="header"><h1>MINKT Stories Lungau</h1></div>
-        <div id="map">
-		<span id="status"></span>
-		<div id="trackerbox">
-			<div class="checker">
-				<label for="track">
-					Meine Position finden 
-					<input id="track" type="checkbox"/>
-				</label>
+			<!-- legend -->
+			<button id="legend-button"></button>
+			<div id="legend" style="display: none">
+				<h3>Legende</h3>
+				<div class ="row">
+					<div class="column1">
+						<p> Lebensort</p>
+					</div>
+					<div class="column2">
+						<img src="static/lebensort_legend.png" height="50px" text-align="right">
+					</div>
+				</div>
+				<div class ="row">
+					<div class="column1">
+						<p> Heilpflanze</p>
+					</div>
+					<div class="column2">
+						<img src="static/plant_legend.png" height="50px">
+					</div>
+				</div>
+				<div class ="row">
+					<div class="column1">
+						<p> Positiver<br/>Mobilitätsmoment</p>
+					</div>
+					<div class="column2">
+						<img src="static/pmob_legend.png" height="50px">
+					</div>
+				</div>
+				<div class ="row">
+					<div class="column1">
+						<p> Negativer<br/>Mobilitätsmoment</p>
+					</div>
+					<div class="column2">
+						<img src="static/nmob_legend.png" height="50px">
+					</div>
+				</div>
+				<div class ="row">
+					<div class="column1">
+						<p> Sonstige Objekte<br/>aus Natur und Kultur</p>
+					</div>
+					<div class="column2">
+						<img src="static/other_legend.png" height="50px">
+					</div>
+				</div>
 			</div>
 		</div>
-		<button id="home"></button>
-
-		<!-- legend -->
-		<button id="legend-button"></button>
-		<div id="legend" style="display: none">
-			<h3>Legende</h3>
-			<div class ="row">
-				<div class="column1">
-					<p> Lebensort</p>
-				</div>
-				<div class="column2">
-					<img src="static/lebensort_legend.png" height="50px" text-align="right">
-				</div>
-			</div>
-			<div class ="row">
-				<div class="column1">
-					<p> Heilpflanze</p>
-				</div>
-				<div class="column2">
-					<img src="static/plant_legend.png" height="50px">
-				</div>
-			</div>
-			<div class ="row">
-				<div class="column1">
-					<p> Positiver<br/>Mobilitätsmoment</p>
-				</div>
-				<div class="column2">
-					<img src="static/pmob_legend.png" height="50px">
-				</div>
-			</div>
-			<div class ="row">
-				<div class="column1">
-					<p> Negativer<br/>Mobilitätsmoment</p>
-				</div>
-				<div class="column2">
-					<img src="static/nmob_legend.png" height="50px">
-				</div>
-			</div>
-			<div class ="row">
-				<div class="column1">
-					<p> Sonstige Objekte<br/>aus Natur und Kultur</p>
-				</div>
-				<div class="column2">
-					<img src="static/other_legend.png" height="50px">
-				</div>
-			</div>
+		
+		<!-- pop-ups in the map-->
+		<div class="ol-popupMarker">
+			<span class="popup-marker" id="marker"></span>
 		</div>
-	</div>
-
-	<!-- pop-ups in the map-->
-	<div class="ol-popupMarker">
-		<span class="popup-marker" id="marker"></span>
-	</div>
-	<div class="ol-popup" style="text-align: center;">
-		<span class='popup-text' id='feature-name'></span> 
-		<span class='popup-text' id='feature-content'></span> 
-		<span class='popup-text' id='feature-category'></span> 
-		<span class='popup-image' id='feature-image' ></span> 
-	</div>
-
-        <!-- image gallery at the bottom of the map -->
-	<div class="wrapper">
-        	<!-- previous button -->
-		<a class="prev" onclick="init.changeIndex(-1);"> &#10094 </a>
-            	<!-- four displayed images -->
+		<div class="ol-popup" style="text-align: center;">
+			<span class='popup-text' id='feature-name'></span> 
+			<span class='popup-text' id='feature-content'></span> 
+			<span class='popup-text' id='feature-category'></span> 
+			<span class='popup-image' id='feature-image' ></span> 
+		</div>
+	    
+	    <!-- image gallery -->
+		<div class="wrapper">
+			<!-- previous button -->
+			<a class="prev" onclick="init.changeIndex(-1);"> &#10094 </a>
+			<!-- four images displayed -->
 			<div class="media" id= "media1" style = "box-shadow: 0px 0px 7px rgba(83, 83, 83, 0.644);">
 				<div class="layers">
 					<p id='image1-text' text-align= 'center'></p>
@@ -124,10 +124,9 @@
 			  	</div>
 				<span class='gallery' id='gallery-image4'></span> 
 			</div>
-		<!-- Next button -->
+			<!-- Next button -->
 		<a class="next" onclick= "init.changeIndex(1);" > &#10095 </a>
 		</div>
-        
         <div id="footer"></div>
     </body>
 </html>
