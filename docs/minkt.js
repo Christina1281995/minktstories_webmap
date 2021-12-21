@@ -117,7 +117,7 @@ function init () {
     // Create a layer with all features but individual styling
     for (var y in requestJSON.features) {
         var feature = requestJSON.features[y];
-        var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+        var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
         var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
         });
@@ -139,11 +139,11 @@ function init () {
     // Distibute features in layers based on property "Zuordnung"
     for (var x in requestJSON.features) {
         var feature = requestJSON.features[x];
-        var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+        var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
         //console.log(feature.geometry.coordinates);
         /* single mobility layer */
         if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment" || feature.properties.Zuordnung == "Negativer_Mobilitätsmoment") {
-            var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+            var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
             var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
             });
@@ -156,7 +156,7 @@ function init () {
             point.setProperties(feature.properties);
         }
         if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment" || feature.properties.Zuordnung == "Negativer_Mobilitätsmoment") {
-            var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+            var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
             var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
             });
@@ -168,7 +168,7 @@ function init () {
             mobility.addFeature(point);
             point.setProperties(feature.properties);
         }else if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment" || feature.properties.Zuordnung == "Negativer_Mobilitätsmoment") {
-            var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+            var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
             var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
             });
@@ -181,7 +181,7 @@ function init () {
             point.setProperties(feature.properties);
         }
          else if (feature.properties.Zuordnung == "Lebensort") {
-            var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+            var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
             var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
             }); //Feature
@@ -189,7 +189,7 @@ function init () {
             lebensort.addFeature(point);
             point.setProperties(feature.properties);
         } else if (feature.properties.Zuordnung == "Heilpflanze") {
-            var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+            var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
             var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
             });
@@ -197,7 +197,7 @@ function init () {
             plants.addFeature(point);
             point.setProperties(feature.properties);
         } else if (feature.properties.Zuordnung == "other") {
-            var position = ol.proj.transform([feature.geometry.coordinates[0], feature.geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+            var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
             var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
             });
@@ -430,24 +430,6 @@ function init () {
         }
     });
 
-    /*
-    Print Button
-   
-    const print = document.getElementById("print");
-    // const legend_content = document.getElementById("legend");
-    var counter = 0;
-    print.addEventListener('click', function() {
-        counter++;
-        console.log(counter);
-        if (counter % 2 != 0) {
-            document.querySelector('#print-section').setAttribute("style", "display: flexbox;");
-            console.log("Set to flexbox");
-        } else  {
-            document.querySelector('#print-section').setAttribute("style", "display: none");
-            console.log("Set to none");
-        }
-    });
-     */
     
     /*
     ON-HOVER HIGHLIGHT
@@ -754,7 +736,7 @@ function init () {
     const media1 = document.getElementById('media1');
 
     media1.addEventListener('click', function () {
-         var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex].geometry.coordinates[0], requestJSON.features[imageIndex].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+         var zoomPosition = ([requestJSON.features[imageIndex].geometry.coordinates[0], requestJSON.features[imageIndex].geometry.coordinates[1]]);
          map.getView().setCenter(zoomPosition);
          map.getView().setZoom(16);
           // Pop-Up
@@ -771,7 +753,7 @@ function init () {
 
     const media2 = document.getElementById('media2');
     media2.addEventListener('click', function () {
-         var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex + 1].geometry.coordinates[0], requestJSON.features[imageIndex + 1].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+         var zoomPosition = ([requestJSON.features[imageIndex + 1].geometry.coordinates[0], requestJSON.features[imageIndex + 1].geometry.coordinates[1]]);
          map.getView().setCenter(zoomPosition);
          map.getView().setZoom(16);
          // Pop-Up
@@ -787,7 +769,7 @@ function init () {
 
     const media3 = document.getElementById('media3');
     media3.addEventListener('click', function () {
-         var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex + 2].geometry.coordinates[0], requestJSON.features[imageIndex + 2].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');
+         var zoomPosition = ([requestJSON.features[imageIndex + 2].geometry.coordinates[0], requestJSON.features[imageIndex + 2].geometry.coordinates[1]]);
          map.getView().setCenter(zoomPosition);
          map.getView().setZoom(16);
          // Pop-Up
@@ -803,7 +785,7 @@ function init () {
 
     const media4 = document.getElementById('media4');
     media4.addEventListener('click', function () {
-        var zoomPosition = ol.proj.transform([requestJSON.features[imageIndex + 3].geometry.coordinates[0], requestJSON.features[imageIndex + 3].geometry.coordinates[1]], 'EPSG:4326', 'EPSG:3857');            
+        var zoomPosition = ([requestJSON.features[imageIndex + 3].geometry.coordinates[0], requestJSON.features[imageIndex + 3].geometry.coordinates[1]]);            
         map.getView().setCenter(zoomPosition);
         map.getView().setZoom(16);
         // Pop-Up
@@ -817,84 +799,4 @@ function init () {
         " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
 
-
-/* Print PDF Option */
-
-
-    const dims = {
-        a0: [1189, 841],
-        a1: [841, 594],
-        a2: [594, 420],
-        a3: [420, 297],
-        a4: [297, 210],
-        a5: [210, 148],
-    };
-  
-  const exportButton = document.getElementById('export-pdf');
-  
-  exportButton.addEventListener(
-    'click',
-    function () {
-      exportButton.disabled = true;
-      document.body.style.cursor = 'progress';
-  
-      const format = document.getElementById('format').value;
-      const resolution = document.getElementById('resolution').value;
-      const dim = dims[format];
-      const width = Math.round((dim[0] * resolution) / 25.4);
-      const height = Math.round((dim[1] * resolution) / 25.4);
-      const size = map.getSize();
-      const viewResolution = map.getView().getResolution();
-  
-      map.once('rendercomplete', function () {
-        const mapCanvas = document.createElement('canvas');
-        mapCanvas.width = width;
-        mapCanvas.height = height;
-        const mapContext = mapCanvas.getContext('2d');
-        Array.prototype.forEach.call(
-          document.querySelectorAll('.ol-layer canvas'),
-          function (canvas) {
-            if (canvas.width > 0) {
-              const opacity = canvas.parentNode.style.opacity;
-              mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
-              const transform = canvas.style.transform;
-              // Get the transform parameters from the style's transform matrix
-              const matrix = transform
-                .match(/^matrix\(([^\(]*)\)$/)[1]
-                .split(',')
-                .map(Number);
-              // Apply the transform to the export map context
-              CanvasRenderingContext2D.prototype.setTransform.apply(
-                mapContext,
-                matrix
-              );
-              mapContext.drawImage(canvas, 0, 0);
-            }
-          }
-        );
-        const pdf = new jspdf.jsPDF('landscape', undefined, format);
-        pdf.addImage(
-          mapCanvas.toDataURL('image/jpeg'),
-          'JPEG',
-          0,
-          0,
-          dim[0],
-          dim[1]
-        );
-        pdf.save('map.pdf');
-        // Reset original map size
-        map.setSize(size);
-        map.getView().setResolution(viewResolution);
-        exportButton.disabled = false;
-        document.body.style.cursor = 'auto';
-      });
-  
-      // Set print size
-      const printSize = [width, height];
-      map.setSize(printSize);
-      const scaling = Math.min(width / size[0], height / size[1]);
-      map.getView().setResolution(viewResolution / scaling);
-    },
-    false
-    );
 };
