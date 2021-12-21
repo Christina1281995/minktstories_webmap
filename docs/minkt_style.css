@@ -288,36 +288,3 @@ body {
 	width: 50px;
 	right: 0px;
 }
-
-#print {
-	position:absolute; 
-    left:40px; 
-    bottom:35px; 
-	width: 35px;
-	height: 35px;
-	border-radius: 4px;
-	background-image: url("static/legend.png");
-	background-size: 25px;
-	background-repeat: no-repeat;
-	background-position: 4px;
-	background-color: #7a6b60c9;
-	box-shadow: 0px 0px 5px rgb(255, 255, 255);
-	z-index: 2;
-	border: none;
-}
-
-#print-section{
-	/* display: flexbox;*/
-	position:absolute; 
-    left:10px; 
-    bottom:72px; 
-    z-index:1000; 
-    width:auto; 
-    height:auto; 
-	padding: 10px;
-    background-color:#7a6b60b3;
-	font-family:Arial, Helvetica, sans-serif;
-	color: white;
-	border-radius: 4px;
-	box-shadow: 0px 0px 5px rgb(255, 255, 255);
-}
