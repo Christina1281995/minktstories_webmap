@@ -1,13 +1,19 @@
 function init () {
    
-    // ESRI Token for image URLs
+    /* 
+    ESRI TOKEN FOR IMAGE URL
+    In the past, we have had to update the token a few times. If it changes again (= pictures don't load), go to the survey in the ArcGIS Online Contents 
+    It's called "Teile eine Teile eine neue MINKT STORY" and it's a form > Manage in Survey123 Website >  Analyze > Scroll to bottom and open one of the images >
+    get the image url. In the URL you can see the new token. Insert the token below:
+    */
+   
     var token = "?token=I7TegBVc1f6x0trhZM9vqvr7h7yBhgoEyQDVQe2G4HO9g1FvBilhOcrqqxqaUMD8I7vGldeDUUmVCxySP5rCQLarp4bJWaSYS8a1fReBt7VJ8rWnLUQ7sg8s4U5W8bqI1twaQtnzJdphkP00RyJFjpHlEHpXn7sLyQsVDhd9TnDpDDfc9u7o6YowaRsiVieLrltzhD5Qvg2HKb1VO_I_Qhwm3bzZcF8I6BE7isShmzLpYuuM5ORXDpd7qfAtyRR7' ";
-    // var token = "?token=G4BQFTxq13VZ8VOAfkwJTOL5OdJagHoFS1x1--y0hnoEUr8DLw7rDz3q-0OUd9DM3MmW6gmBUg0R_hnFACGGkaOIxP1tB35S8xlCwscv0CjZNFMhwsiuafYGynM8UroMEkXKau9RCTju1G7f1vi3gyV263FOTltqJDiVkQMmKy_N4shZTdIYiMc5LMfpsBe1PXJHyWV9D3KMzSUBKMRfuqJiisEl2DvJ5UxsV2MsXFC0TOgJY-kjKhni1_j5Rp8W' ";
 
     /*
     BASE LAYERS
     */
 
+    // Bing Styles and Key
     var styles = ['Road', 'Aerial','AerialWithLabels'];
     var bingKey = 'Atoz1wDioRmjCFJbh0EYKVbNhY1FpWn2hyBGodCxBwsbWmxEP9Il16k9qcBBLXWk';
 
@@ -28,7 +34,7 @@ function init () {
                 }),
             })
         );
-    }//for
+    }
 
     //OSM layer
     var osm = new ol.layer.Tile({
@@ -43,6 +49,7 @@ function init () {
 
     /*
     WFS INTEGRATION
+    The images for the features are stored in the static folder on GitHub
     */
 
     // Icon Styling
@@ -365,7 +372,7 @@ function init () {
     CREATE BASIC MAP
     */
 
-   // Create a variable lungauPosition 
+   // Create a variable lungauPosition. This position will be the "starting" view when the page is loaded.
    var lungauPosition = ol.proj.transform ([13.80937, 47.12704], 'EPSG:4326', 'EPSG:3857');
 
     var map = new ol.Map({
@@ -645,19 +652,19 @@ function init () {
     IMAGE GALLERY
     */
 
-    // Images in Gallery
+    // Images in Gallery - link to the elements in the index.html file
     const galleryimage1 = document.getElementById('gallery-image1');
     const galleryimage2 = document.getElementById('gallery-image2');
     const galleryimage3 = document.getElementById('gallery-image3');
     const galleryimage4 = document.getElementById('gallery-image4');
 
-    // Hover text in Gallery
+    // Hover text in Gallery - link to the elements in the index.html file
     const gallerytext1 = document.getElementById('image1-text');
     const gallerytext2 = document.getElementById('image2-text');
     const gallerytext3 = document.getElementById('image3-text');
     const gallerytext4 = document.getElementById('image4-text');
 
-    // Get ObjectID for image URL
+    // Get ObjectID for each feature. The object ID is important for the image URL. 
     var featuresID = [];
     for (var u in requestJSON.features) {
         featuresID[u] = requestJSON.features[u].properties.ObjectID;
@@ -669,13 +676,13 @@ function init () {
         featuresText[v] = requestJSON.features[v].properties.Name_deiner_Story;
     }; 
     
-    // Variable to set imageIndex (determines which images are shown)
-    // Initial value defaults to the middle of the array, so users can click prev. and next
+    // Here we caluclate the imageIndex to determine which images are shown in the four display boxes
+    // We have set the initial default imageIndex value to the middle of the array, so users can click on both the prev. and next buttons
     var length = requestJSON.features.length;
     // Apply Math.round to the initial index number - otherwise we might get a decimal number!
     var imageIndex = Math.round((length - (length / 2)));
 
-    // Fill Gallery with initial images uning URL frame and imageIndex
+    // Fill Gallery with initial images using URL frame and imageIndex and token
     galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex] + "/attachments/" + featuresID[imageIndex] + token +
     " width='300' >";
@@ -732,16 +739,17 @@ function init () {
         return imageIndex;
     }
 
-    // Add Event listener on media blocks for zoom and center function in map
-    const media1 = document.getElementById('media1');
-
+    // Add Event listener on image blocks: if clicked, then zoom and center on that feature in the map
+    
+   const media1 = document.getElementById('media1');
     media1.addEventListener('click', function () {
+         // get position of feature and zoom to it
          var zoomPosition = ([requestJSON.features[imageIndex].geometry.coordinates[0], requestJSON.features[imageIndex].geometry.coordinates[1]]);
          map.getView().setCenter(zoomPosition);
          map.getView().setZoom(16);
-          // Pop-Up
+          // Create Pop-Up for that feature as well
           overlayLayer1.setPosition(zoomPosition);
-          console.log(zoomPosition);
+          // console.log(zoomPosition);
           overlayFeatureName1.innerHTML = "<h3>" + requestJSON.features[imageIndex].properties.Name_deiner_Story + "</h3>";
           overlayFeatureContent1.innerHTML = "<p>" + requestJSON.features[imageIndex].properties.Beschreibung + "</p>";
           overlayFeatureCategory1.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex].properties.Zuordnung + "</i></p>";
