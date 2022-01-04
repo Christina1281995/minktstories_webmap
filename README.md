@@ -15,6 +15,7 @@ The MINKT Stories web map is an open layers web application that integrates data
 
 | _Date_  | Issue / Edit |
 | ------------- | ------------- |
+| _04.01.2022_  | Token had to be updated (again). |
 | _21.12.2021_  | **ol.proj.transform()**: The features from the WFS no longer showed up on the map today. Upon investigation it turns out the coordinates of each point was being coverted completely wrong (some points had invalid coordinates, some were in Canada, and some were in Antarctica). Only after removing the ol.proj.transform function from the point geometries wsa the issue resolved and the points again appear in their correct location. Oddly, the geolocation and the home position still function properly with the transformation function. Note: no changes were made to the survey, the WFS, or the source code of this web map when I noticed the missing features.  | 
 | _14.12.2021_  | Survey123 **token** updated again. While working on another project in ArcGIS Online the user was logged out. This triggered a safety issue and an caused an automatic update for the tokens. It is the same issue as experienced before (30.11.2021). |
 | _07.12.2021_  | Legned updated with improved icons and css styling. |
