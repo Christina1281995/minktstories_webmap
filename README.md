@@ -11,10 +11,21 @@ The MINKT Stories web map is an open layers web application that integrates data
 **View the MINKT Stories Platform:** <br/>
 [https://minkt-stories-lungau.zgis.at/](https://minkt-stories-lungau.zgis.at/)
 
-**Recent Updates:** <br/>
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/81073205/143590945-9ffa7b3e-0f4c-4597-8e14-29defc484a87.png)
+
+<br/>
+<br/>
+
+**Recent Updates:** 
+
+<br/>
 
 | _Date_  | Issue / Edit |
 | ------------- | ------------- |
+| _05.01.2022_  | Token had to be updated (again). |
 | _04.01.2022_  | Token had to be updated (again). |
 | _21.12.2021_  | **ol.proj.transform()**: The features from the WFS no longer showed up on the map today. Upon investigation it turns out the coordinates of each point was being coverted completely wrong (some points had invalid coordinates, some were in Canada, and some were in Antarctica). Only after removing the ol.proj.transform function from the point geometries wsa the issue resolved and the points again appear in their correct location. Oddly, the geolocation and the home position still function properly with the transformation function. Note: no changes were made to the survey, the WFS, or the source code of this web map when I noticed the missing features.  | 
 | _14.12.2021_  | Survey123 **token** updated again. While working on another project in ArcGIS Online the user was logged out. This triggered a safety issue and an caused an automatic update for the tokens. It is the same issue as experienced before (30.11.2021). |
@@ -22,11 +33,6 @@ The MINKT Stories web map is an open layers web application that integrates data
 | _01.12.2021_  | Legend added. Some stylistic improvements. |
 | _30.11.2021_  | The survey123 **tokens** (used for image URL generation) were changed by ESRI. It is unclear whether this automatically happens every 2 weeks or if the token change was triggered through activity in ArcGIS Online (at the time when the tokens were changed, a user was editing the MINKT platform, not the web map, and an error message was issued regarding the tokens). to fix the issue, the tokens were updated in the code.  |
 |  _30.11.2021_  | Added to the map: autoPan function for the pop-ups, on-hover highlighting of the individual features, and an on-hover opening and closing of the layer switcher menu were added.  |
-
-<br/>
-<br/>
-
-![image](https://user-images.githubusercontent.com/81073205/143590945-9ffa7b3e-0f4c-4597-8e14-29defc484a87.png)
 
 <br/>
 <br/>
