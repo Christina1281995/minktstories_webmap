@@ -7,7 +7,7 @@ function init () {
     get the image url. In the URL you can see the new token. Insert the token below:
     */
    
-    var token = "?token=oXa_ENj-RXm_pirp90A75cVy5smmijAlO9yATQIhFp3paUeNDIiSzG4HdeVvosA0xvffizEFgt_kX8vbjTtkcVTl3_8lceQCIk2Q_-jgUiQswNxWK1EZeZ7Th3CMqnWLbnA0ws5kVHsxRt0IKv3rXe5bBOUCIJDY7zkIt8BsXiD1jrj55kay4N5hEoOgU-extLiVoO2-sURU77n4spOWCk4Y72CItRyWICgawwGfuJb7RLNb_2yjpUof8LuWud78' ";
+    var token = "?token=IEpVR_PZgNWH275nuC198-MigJz1lDVTnEVvw93Jt_wR5oZZZlcoE6GZh0G6OZyfLZnWoCwwBxtyOm_nzcedST-jS3uqdqGp95ire0ouPCmS0qoopRJNHoAKJdVf9L02_eBPb5oh03RlGCxAuUonymD8WA1AlMO_UVtEnrQLNyPZkYTfPI-9EoWMmzmrMYx8EM5qPZI9SpeVPiFSOT19ipaLMw6r1go5kq8M6lJD2pQZnWA5lbu7prRBKkhXR02l' ";
 
     /*
     BASE LAYERS
