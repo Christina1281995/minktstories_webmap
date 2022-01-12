@@ -25,6 +25,7 @@ The MINKT Stories web map is an open layers web application that integrates data
 
 | _Date_  | Issue / Edit |
 | ------------- | ------------- |
+| _11.01.2022_  | Token had to be updated (again). |
 | _05.01.2022_  | Token had to be updated (again). |
 | _04.01.2022_  | Token had to be updated (again). |
 | _21.12.2021_  | **ol.proj.transform()**: The features from the WFS no longer showed up on the map today. Upon investigation it turns out the coordinates of each point was being coverted completely wrong (some points had invalid coordinates, some were in Canada, and some were in Antarctica). Only after removing the ol.proj.transform function from the point geometries wsa the issue resolved and the points again appear in their correct location. Oddly, the geolocation and the home position still function properly with the transformation function. Note: no changes were made to the survey, the WFS, or the source code of this web map when I noticed the missing features.  | 
