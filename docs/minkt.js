@@ -9,7 +9,20 @@ function init () {
    
     var token = "?token=-cVHwFkMF0b705erS1OcJCwVO5FLtFGEpNJ1pTbDQwaQt7gW-GvIT4KfvG6k33ZyMghVVBm1Wi8jmcnJhl90Ev_NEwTdfkAgEI-ErSniKsORP7uPSUajhMcUYrWRAWutBIQqHM1fZTJWb15FQZqmFQhSukF0aFCe3SBlduK1vKN8Q6tfERB1rBd12AaYAKdbtZPBQA8FpOzNQYwt8ipYrHvlglRP89m_2E1IvVD7y7tFtfnX_iCWOxjtIxJBXjpd' ";
     
-   /*
+    /*
+    TESTING
+    */
+    var xmlhttp, text;
+    xmlhttp1 = new XMLHttpRequest();
+    xmlhttp1.open('GET', 'https://github.com/Christina1281995/minktstories_webmap/blob/main/docs/static/stories.json', false);
+    // xmlhttp1.open('GET', 'https://www.w3.org/TR/PNG/iso_8859-1.txt', false);
+    xmlhttp1.send();
+    text = xmlhttp1.responseText;
+    console.log(text)
+   
+   
+   
+    /*
     BASE LAYERS
     */
 
