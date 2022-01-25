@@ -384,11 +384,13 @@ function init () {
             positioning
         ],
         controls: ol.control.defaults({
+            rotate: false,
             attributionOptions: ({
                 collapsible: true
             })
         }).extend([
             layerSwitcher,
+            new ol.control.FullScreen(),
             new ol.control.ScaleLine()
         ]),
         target: 'map',
