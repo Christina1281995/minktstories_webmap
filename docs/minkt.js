@@ -613,8 +613,8 @@ function init () {
                 overlayFeatureContent.innerHTML = "<p>" + clickedFeatureContent + "</p>";
                 overlayFeatureCategory.innerHTML = "<p><i>Kategorie: "+ clickedFeatureCategory + "</i></p>";
                 // Create image URL dynamically with the ObjectID 
-                overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-                /* clickedFeatureID + "/attachments/" + clickedFeatureID + token +
+                /* overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+                clickedFeatureID + "/attachments/" + clickedFeatureID + token +
                 " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>"; */
                 overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
                 clickedFeatureID + "/attachments/" + clickedFeatureID +
