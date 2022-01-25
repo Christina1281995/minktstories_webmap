@@ -4,8 +4,8 @@ Code based on Walkermatt ol layerswitcher: https://github.com/walkermatt/ol-laye
 
 .layer-switcher {
   position: absolute;
-  top: 4.0em;
-  left: 0.5em;
+  top: 90px;
+  right: 17px;
   text-align: left;
 }
 
