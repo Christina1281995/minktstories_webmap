@@ -708,19 +708,19 @@ function init () {
     /* galleryimage2.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] + token +
     " width='300' >"; */
-    galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+    galleryimage2.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] +
     " width='300' >";
     /* galleryimage3.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 2] + "/attachments/" + featuresID[imageIndex + 2] + token +
     " width='300' >"; */
-    galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+    galleryimage3.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 2] + "/attachments/" + featuresID[imageIndex + 2] +
     " width='300' >";
     /* galleryimage4.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 3] + "/attachments/" + featuresID[imageIndex + 3] + token +
     " width='300' >"; */
-    galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+    galleryimage4.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 3] + "/attachments/" + featuresID[imageIndex + 3] +
     " width='300' >";
 
