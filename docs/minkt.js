@@ -744,7 +744,7 @@ function init () {
 
             // Fill Gallery with Images
             galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-            featuresID[imageIndex] + "/attachments/" + featuresID[imageIndex] + token +
+            featuresID[imageIndex] + "/attachments/" + featuresID[imageIndex] +
             " width='300'>";
             galleryimage2.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
             featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] +
