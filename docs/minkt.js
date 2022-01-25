@@ -619,7 +619,7 @@ function init () {
                 " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>"; */
                 overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
                 clickedFeatureID + "/attachments/" + clickedFeatureID +
-                " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";
+                "' height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";
             }
         }) 
     });
@@ -657,9 +657,9 @@ function init () {
                     /* overlayFeatureImage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
                     clickedFeatureID + "/attachments/" + clickedFeatureID + token +
                     " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>"; */
-                   overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-                   clickedFeatureID + "/attachments/" + clickedFeatureID +
-                   " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";                   
+                    overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
+                    clickedFeatureID + "/attachments/" + clickedFeatureID +
+                    "' height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";                   
                 }
            })
         });
@@ -705,25 +705,25 @@ function init () {
     " width='300' >"; */
     galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex] + "/attachments/" + featuresID[imageIndex] +
-    " width='300' >";
+    "' width='300' >";
     /* galleryimage2.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] + token +
     " width='300' >"; */
     galleryimage2.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] +
-    " width='300' >";
+    "' width='300' >";
     /* galleryimage3.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 2] + "/attachments/" + featuresID[imageIndex + 2] + token +
     " width='300' >"; */
     galleryimage3.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 2] + "/attachments/" + featuresID[imageIndex + 2] +
-    " width='300' >";
+    "' width='300' >";
     /* galleryimage4.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 3] + "/attachments/" + featuresID[imageIndex + 3] + token +
     " width='300' >"; */
     galleryimage4.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 3] + "/attachments/" + featuresID[imageIndex + 3] +
-    " width='300' >";
+    "' width='300' >";
 
     // Fill Gallery with text corresponding to images 
     gallerytext1.innerHTML = "<p>" + featuresText[imageIndex] + "</p>";
@@ -746,16 +746,16 @@ function init () {
             // Fill Gallery with Images
             galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
             featuresID[imageIndex] + "/attachments/" + featuresID[imageIndex] +
-            " width='300'>";
+            "' width='300'>";
             galleryimage2.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
             featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] +
-            " width='300'>";
+            "' width='300'>";
             galleryimage3.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
             featuresID[imageIndex + 2] + "/attachments/" + featuresID[imageIndex + 2] +
-            " width='300'>";
+            "' width='300'>";
             galleryimage4.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
             featuresID[imageIndex + 3] + "/attachments/" + featuresID[imageIndex + 3] +
-            " width='300'>";
+            "' width='300'>";
 
             // Fill Gallery with Text
             gallerytext1.innerHTML = "<p>" + featuresText[imageIndex] + "</p>";
@@ -785,7 +785,7 @@ function init () {
           // Create image URL dynamically with the ObjectID 
           overlayFeatureImage.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
           (imageIndex + 1) + "/attachments/" + (imageIndex + 1) +
-          " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";
+          "' height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);'>";
         })
 
     const media2 = document.getElementById('media2');
@@ -801,7 +801,7 @@ function init () {
          // Create image URL dynamically with the ObjectID 
          overlayFeatureImage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
          (imageIndex + 2) + "/attachments/" + (imageIndex + 2) +
-         " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
+         "' height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
 
     const media3 = document.getElementById('media3');
@@ -817,7 +817,7 @@ function init () {
         // Create image URL dynamically with the ObjectID 
         overlayFeatureImage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
         (imageIndex + 3) + "/attachments/" + (imageIndex + 3) +
-        " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
+        "' height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
 
     const media4 = document.getElementById('media4');
@@ -833,7 +833,7 @@ function init () {
         // Create image URL dynamically with the ObjectID 
         overlayFeatureImage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
         (imageIndex + 4) + "/attachments/" + (imageIndex + 4) +
-        " height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
+        "' height='200px' style = 'box-shadow: 0px 0px 5px rgba(83, 83, 83, 0.544);' >";
         })
 
 };
