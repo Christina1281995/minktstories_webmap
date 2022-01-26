@@ -129,7 +129,6 @@ function init () {
 
     var flashing = new ol.source.Vector();
     var flashy = new ol.layer.Vector({
-        title: "flash",
         source: flashing,
     });
 
@@ -368,6 +367,14 @@ function init () {
         layers: [markerLayer]
     });
 
+  /*
+    flashes = new ol.layer.Group({
+        title: 'flashes',
+        fold: "close",
+        type: 'none',
+        layers: [flashy]
+    });
+*/
 
     /*
     LAYER SWITCHER
@@ -410,6 +417,9 @@ function init () {
             zoom: 10
         })
     });
+
+
+   //  map.addLayer(flashy);
 
     // Geolocation button in map       
     function el(id) {
