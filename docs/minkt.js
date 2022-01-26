@@ -99,6 +99,11 @@ function init () {
             src: 'static/lebensort.png'
         })
     });
+    var invisible = new ol.style.Style({ // to be used for flashing symbols
+        stroke: new ol.style.Stroke({
+        width: 0, color: [255, 0, 0, 1]
+        })
+});
 
     // WFS get features request
     var request = 'https://dservices.arcgis.com/Sf0q24s0oDKgX14j/arcgis/services/MinktStories/WFSServer?service=wfs&' +
@@ -114,13 +119,20 @@ function init () {
 
     // Parse as JSON
     var requestJSON = JSON.parse(httpGet(request));
-    // console.log(requestJSON);
+    console.log(requestJSON);
     
     var allFeatures = new ol.source.Vector();
     var mobility = new ol.source.Vector();
     var plants = new ol.source.Vector();
     var lebensort = new ol.source.Vector();
     var sonstige = new ol.source.Vector();
+
+    var flashing = new ol.source.Vector();
+    var flashy = new ol.layer.Vector({
+        title: "flash",
+        source: flashing,
+    });
+
 
     // Create a layer with all features but individual styling
     for (var y in requestJSON.features) {
@@ -148,7 +160,7 @@ function init () {
     for (var x in requestJSON.features) {
         var feature = requestJSON.features[x];
         var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
-        //console.log(feature.geometry.coordinates);
+
         /* single mobility layer */
         if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment" || feature.properties.Zuordnung == "Negativer_Mobilitätsmoment") {
             var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
@@ -209,7 +221,6 @@ function init () {
             var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
             });
-            console.log(feature.properties.Zuordnung);
             point.setStyle(oStyle);
             sonstige.addFeature(point);
             point.setProperties(feature.properties);
@@ -305,7 +316,6 @@ function init () {
     // Once location is found ("change") draw marker, set geolocation to false, zoom to location
     geolocation.on('change', function(){			
         var currentPosition = ol.proj.transform(geolocation.getPosition(), 'EPSG:4326', 'EPSG:3857');			
-        console.log(currentPosition);
         drawMarkerCurrentPosition(currentPosition);
         geolocation.setTracking(false);
         map.getView().setCenter(currentPosition);
@@ -381,7 +391,8 @@ function init () {
             baseLayers,
             overlays,
             clusterLayer,
-            positioning
+            positioning,
+            flashy
         ],
         controls: ol.control.defaults({
             rotate: false,
@@ -430,17 +441,169 @@ function init () {
     var counter = 0;
     legend.addEventListener('click', function() {
         counter++;
-        console.log(counter);
         if (counter % 2 != 0) {
             document.querySelector('#legend').setAttribute("style", "display: flexbox;");
-            console.log("Set to flexbox");
         } else  {
             document.querySelector('#legend').setAttribute("style", "display: none");
-            console.log("Set to none");
         }
     });
 
+      /*
+    Tools Button
+    */
+
+    const tools = document.getElementById("tools");
+    var counter = 0;
+    tools.addEventListener('click', function() {
+        counter++;
+        if (counter % 2 != 0) {
+            document.querySelector('#toolbox').setAttribute("style", "display: flexbox;");
+        } else  {
+            document.querySelector('#toolbox').setAttribute("style", "display: none");
+        }
+    });
     
+
+    /*
+    TOOLBOX 
+    */
+
+
+    // KEYWORD SEARCH
+    // connect to keyword search form
+    const formKeyword = document.getElementById('keyword');
+    var searchword;
+    // prevent page from reloading 
+    function handleForm(event) { event.preventDefault(); } 
+    formKeyword.addEventListener('submit', handleForm);
+
+    results = [];
+
+
+    // get value entered by user
+    formKeyword.addEventListener('submit', (event) => {
+        searchword = document.getElementById("suchwort").value.toLowerCase();
+        console.log(searchword)
+        if (searchword == "")
+        {
+        alert("Gib bitte etwas in der Suchbox ein.");
+        return false;
+        }
+        else{
+            for (var x in requestJSON.features) {
+                var feature = requestJSON.features[x];
+                
+                // format everything to lowercase and check if Beschreibung or Title contain the searchword
+                if (feature.properties.Beschreibung.toLowerCase().includes(searchword) || feature.properties.Name_deiner_Story.toLowerCase().includes(searchword)) {
+                    console.log(feature.properties.Beschreibung);
+                    results.push((feature.properties.Name_deiner_Story, feature.properties.Beschreibung));
+                    
+                    var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
+                    
+                    var point = new ol.Feature({
+                    geometry: new ol.geom.Point(position)
+                    });
+                    point.setStyle(invisible);
+                    flashing.addFeature(point)
+                }
+            }
+        }
+
+    })
+    // Distibute features in layers based on property "Zuordnung"
+    
+
+
+    // FLASH ANIMATION
+    var duration = 3000;
+    function flash(feature) {
+    var start = new Date().getTime();
+    var listenerKey;
+    
+    function animate(event) {
+        
+        var vectorContext = event.vectorContext;
+        var frameState = event.frameState;
+        var flashGeom = feature.getGeometry().clone();
+        var elapsed = frameState.time - start;
+        var elapsedRatio = elapsed / duration;
+        // radius will be 5 at start and 30 at end.
+        var radius = ol.easing.easeOut(elapsedRatio) * 25 + 5;
+        var opacity = ol.easing.easeOut(1 - elapsedRatio);
+
+        var style = new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: radius,
+            snapToPixel: false,
+            stroke: new ol.style.Stroke({
+            color: 'rgba(255, 0, 0, ' + opacity + ')',
+            width: 0.25 + opacity
+            })
+        })
+        });
+
+        vectorContext.setStyle(style);
+        vectorContext.drawGeometry(flashGeom);
+        if (elapsed > duration) {
+          // elapsed == 0;
+          ol.Observable.unByKey(listenerKey);
+        return;
+        }
+        // tell OpenLayers to continue postcompose animation
+        map.render();
+    }
+    listenerKey = map.on('postcompose', animate);
+    }
+
+    flashing.on('addfeature', function(e) {
+        flash(e.feature);
+    });
+
+/*
+    // TIME SEARCH
+    // connect to keyword search form
+    const formDates = document.getElementById('dates');
+    // prevent page from reloading 
+    function handleForm(event) { event.preventDefault(); } 
+    formDates.addEventListener('submit', handleForm);
+
+    // get value entered by user
+    formDates.addEventListener('submit', (event) => {
+        var start = document.getElementById("startdate").value;
+        var end = document.getElementById("enddate").value;
+        console.log(start, end);
+
+        // Distibute features in layers based on property "Zuordnung"
+        for (var x in requestJSON.features) {
+            var feature = requestJSON.features[x];
+            var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
+
+            // single mobility layer
+            if (feature.properties.CreationDate <= start && feature.properties.CreationDate >= end) {
+                // var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
+                // var point = new ol.Feature({
+                // geometry: new ol.geom.Point(position)
+                // });
+                console.log(feature.properties.Name_deiner_Story);
+        }}})
+*/
+    
+    // CLEAR SEARCH
+    // connect to keyword search form
+    const formClear = document.getElementById('clear');
+    // prevent page from reloading 
+    function handleForm(event) { event.preventDefault(); } 
+    formClear.addEventListener('submit', handleForm);
+
+    // when submitted, clear all features from flashing layer
+    formClear.addEventListener('submit', (event) => {
+        flashing.clear();
+        results = [];
+        console.log("form cleared");
+    })
+
+
+
     /*
     ON-HOVER HIGHLIGHT
     */
@@ -515,7 +678,6 @@ function init () {
         map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
             if (layer === allLayer || layer === plantsLayer || layer === otherLayer || layer === lebensortLayer || layer === mobilityLayer) {
                 let hoverFeature = feature.get('Zuordnung')
-                console.log(hoverFeature);
                 
                 if (hoverFeature == "Heilpflanze") {
                     selected.setStyle(plantStyle1)
@@ -601,7 +763,6 @@ function init () {
                 let clickedFeatureCategory = feature.get('Zuordnung');
                 let clickedFeatureID = feature.get('ObjectID');
                 overlayLayer.setPosition(clickedCoordinate);
-                console.log(clickedFeatureName, clickedFeatureContent, clickedFeatureCategory);
                 overlayFeatureName.innerHTML = "<h3>" + clickedFeatureName + "</h3>";
                 overlayFeatureContent.innerHTML = "<p>" + clickedFeatureContent + "</p>";
                 overlayFeatureCategory.innerHTML = "<p><i>Kategorie: "+ clickedFeatureCategory + "</i></p>";
@@ -641,7 +802,6 @@ function init () {
                     let clickedFeatureCategory = feature.get('Zuordnung');
                     let clickedFeatureID = feature.get('ObjectID');
                     overlayLayer1.setPosition(clickedCoordinate);
-                    console.log(clickedFeatureName, clickedFeatureContent, clickedFeatureCategory);
                     overlayFeatureName1.innerHTML = "<h3>" + clickedFeatureName + "</h3>";
                     overlayFeatureContent1.innerHTML = "<p>" + clickedFeatureContent + "</p>";
                     overlayFeatureCategory1.innerHTML = "<p><i>Kategorie: "+ clickedFeatureCategory + "</i></p>";
@@ -692,27 +852,19 @@ function init () {
     var imageIndex = Math.round((length - (length / 2)));
 
     // Fill Gallery with initial images using URL frame and imageIndex and token
-    /* galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-    featuresID[imageIndex] + "/attachments/" + featuresID[imageIndex] + token +
-    " width='300' >"; */
+ 
     galleryimage1.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex] + "/attachments/" + featuresID[imageIndex] +
     "' width='300' >";
-    /* galleryimage2.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-    featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] + token +
-    " width='300' >"; */
+
     galleryimage2.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 1] + "/attachments/" + featuresID[imageIndex + 1] +
     "' width='300' >";
-    /* galleryimage3.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-    featuresID[imageIndex + 2] + "/attachments/" + featuresID[imageIndex + 2] + token +
-    " width='300' >"; */
+ 
     galleryimage3.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 2] + "/attachments/" + featuresID[imageIndex + 2] +
     "' width='300' >";
-    /* galleryimage4.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
-    featuresID[imageIndex + 3] + "/attachments/" + featuresID[imageIndex + 3] + token +
-    " width='300' >"; */
+
     galleryimage4.innerHTML = "<img src='https://services.arcgis.com/Sf0q24s0oDKgX14j/arcgis/rest/services/survey123_b6e023860648421f832ce0e93ad14aec/FeatureServer/0/" +
     featuresID[imageIndex + 3] + "/attachments/" + featuresID[imageIndex + 3] +
     "' width='300' >";
@@ -770,7 +922,7 @@ function init () {
          map.getView().setZoom(16);
           // Create Pop-Up for that feature as well
           overlayLayer1.setPosition(zoomPosition);
-          // console.log(zoomPosition);
+
           overlayFeatureName1.innerHTML = "<h3>" + requestJSON.features[imageIndex].properties.Name_deiner_Story + "</h3>";
           overlayFeatureContent1.innerHTML = "<p>" + requestJSON.features[imageIndex].properties.Beschreibung + "</p>";
           overlayFeatureCategory1.innerHTML = "<p><i>Kategorie: "+ requestJSON.features[imageIndex].properties.Zuordnung + "</i></p>";
@@ -829,3 +981,4 @@ function init () {
         })
 
 };
+
