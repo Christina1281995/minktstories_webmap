@@ -17,13 +17,12 @@ function init () {
     var bingKey = 'Atoz1wDioRmjCFJbh0EYKVbNhY1FpWn2hyBGodCxBwsbWmxEP9Il16k9qcBBLXWk';
 
     // Use an array to group all base layers
-    var bingLayers = [];
+    var baseLayers = [];
     let i, ii;
     for (i =0, ii = styles.length; i < ii; ++i) {
-        bingLayers.push(
+        baseLayers.push(
             new ol.layer.Tile({
-                //title: styles[i],
-                title: styles[i].split(/(?=[A-Z])/).join(" "), //ArealWithLabels -> Areal With Labels
+                title: styles[i].split(/(?=[A-Z])/).join(" "),
                 type: 'base',
                 visible: true,
                 preload: Infinity,
@@ -44,7 +43,7 @@ function init () {
     })
 
     // Add Open Street Map layer to the baseLayers array
-    bingLayers.push(osm);
+    baseLayers.push(osm);
 
    
     /*
@@ -193,32 +192,9 @@ function init () {
             mobility.addFeature(point);
             point.setProperties(feature.properties);
         }
-        if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment" || feature.properties.Zuordnung == "Negativer_Mobilitätsmoment") {
-            var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
-            var point = new ol.Feature({
-            geometry: new ol.geom.Point(position)
-            });
-            if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment") {
-                point.setStyle(pMobStyle)
-            } else {
-                point.setStyle(nMobStyle)
-            }
-            mobility.addFeature(point);
-            point.setProperties(feature.properties);
-        }else if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment" || feature.properties.Zuordnung == "Negativer_Mobilitätsmoment") {
-            var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
-            var point = new ol.Feature({
-            geometry: new ol.geom.Point(position)
-            });
-            if (feature.properties.Zuordnung == "Positiver_Mobilitätsmoment") {
-                point.setStyle(pMobStyle)
-            } else {
-                point.setStyle(nMobStyle)
-            }
-            mobility.addFeature(point);
-            point.setProperties(feature.properties);
-        }
-         else if (feature.properties.Zuordnung == "Lebensort") {
+       
+        // layer for living spaces
+        else if (feature.properties.Zuordnung == "Lebensort") {
             var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
             var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
@@ -226,7 +202,10 @@ function init () {
             point.setStyle(liveStyle);
             lebensort.addFeature(point);
             point.setProperties(feature.properties);
-        } else if (feature.properties.Zuordnung == "Heilpflanze") {
+        } 
+       
+        // layer for medicinal plants
+        else if (feature.properties.Zuordnung == "Heilpflanze") {
             var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
             var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
@@ -234,7 +213,10 @@ function init () {
             point.setStyle(plantStyle);
             plants.addFeature(point);
             point.setProperties(feature.properties);
-        } else if (feature.properties.Zuordnung == "other") {
+        } 
+       
+        // layer for other 
+        else if (feature.properties.Zuordnung == "other") {
             var position = ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
             var point = new ol.Feature({
             geometry: new ol.geom.Point(position)
@@ -370,7 +352,7 @@ function init () {
     baseLayers = new ol.layer.Group({
         title: "Base Layers",
         fold:'close',
-        layers: bingLayers
+        layers: baseLayers
     });
 
     overlays = new ol.layer.Group({
