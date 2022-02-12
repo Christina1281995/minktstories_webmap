@@ -1,17 +1,15 @@
-![Capture](https://user-images.githubusercontent.com/81073205/152940717-95a60381-b09d-4b50-b164-588816365f46.PNG)
+![Capture](https://user-images.githubusercontent.com/81073205/152940824-5ef1258c-252a-4812-8d9d-db597b0784ee.PNG)
+## MINKT Stories Web Map
 
+The MINKT Stories web map hosted here is the central element of a map-based platform with which the [iDEAS:lab](https://ideaslab.plus.ac.at/) in Salzburg, Austria hosts workshops to **build digial skills with young citizen scientists**.
 
-The MINKT Stories web map is an open layers web application that integrates data collected in Survey123 as a WFS. The application includes pop-ups, geolocation, an interactive gallery, and layer switchers ([walkermatt-layerswitcher](https://github.com/walkermatt/ol-layerswitcher)).
+The web map is an open layers web application that integrates data collected in Survey123 as a WFS. The application includes pop-ups, geolocation, an interactive gallery, and layer switchers ([walkermatt-layerswitcher](https://github.com/walkermatt/ol-layerswitcher)).
 
-**See the Live Web Map:** <br/>
-[https://christina1281995.github.io/minktstories_webmap/](https://christina1281995.github.io/minktstories_webmap/)
-
-**GitLab Repository:** <br/>
-[https://git.sbg.ac.at/s1079105/geoappdev-webmap](https://git.sbg.ac.at/s1079105/geoappdev-webmap)
+**See the Web Map Result:** <br/>
+[https://zgis.github.io/minktstories_webmap/](https://zgis.github.io/minktstories_webmap/)
 
 **View the MINKT Stories Platform:** <br/>
 [https://minkt-stories-lungau.zgis.at/](https://minkt-stories-lungau.zgis.at/)
-
 
 <br/>
 
@@ -20,7 +18,16 @@ The MINKT Stories web map is an open layers web application that integrates data
 <br/>
 <br/>
 
-**Recent Updates:** 
+
+## The Concept and Spatial Data Infrastructure behind the Web Map
+<br/>
+
+![concept](https://user-images.githubusercontent.com/81073205/152963923-d81558b9-1af7-4f17-b943-cc972a8176af.png)
+
+<br/>
+<br/>
+
+## Recent Updates
 
 <br/>
 
@@ -37,12 +44,6 @@ The MINKT Stories web map is an open layers web application that integrates data
 **Contributors:** <br/>
 Niklas Jaggy, Katharina Wöhs, Christina Zorenböhmer
 
-**Current Bug Log:** <br/>
-
-| _Issue_  | Date | Details |
-| ------------- | ------------- | ------------- |
-| _autoPan_  | 01.12.2021 | When clicking on a feature, the autoPan sometimes only works on the second click. There is an issue of duplicate code for the feature pop-ups (one version needed for the gallery that does not include autoPan, and one for the features in the map, which does include autoPan. |
-|  _Feature Clustering_  | 01.12.2021 | Feature clustering layer currently does not take into account which feature categories are turned on and off in the layer switcher.  |
 
 <br/>
 
